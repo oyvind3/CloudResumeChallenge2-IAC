@@ -6,7 +6,7 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
 }
 
 module stg './storage.bicep' = {
-  name: 'StorageDeployment'
+  name: 'StorageDeployment2'
   scope: rg
   params: {
     storageAccountName: 'oyvindbicep'
