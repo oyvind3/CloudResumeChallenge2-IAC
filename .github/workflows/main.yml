@@ -1,10 +1,19 @@
 on:
     push:
         branches: [ main ]
+        workflow_dispatch:
+
 name: Azure CloudResumeIAC bui1ld
+
+env:
+  RESOURCE_GROUP: rg-bicep-github-action-1
+  WEBAPP_NAME: BICEP_web_1
+
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       # Checkout code
     - uses: actions/checkout@main
@@ -14,11 +23,19 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Create_resourceGroup
+      uses: Azure/cli@v1
+      with:
+        inlineScript: |
+        az version
+        az group create -n $RESOURCE_GROUP -l westeurope
+
       # Deploy Bicep file
     - name: deploy
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: 'test4'
+        resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
         template: ./main.bicep
+        failOnStdErr: false
 
