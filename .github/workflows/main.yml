@@ -1,7 +1,7 @@
 on:
     push:
         branches: [ main ]
-name: Azure CloudResumeIAC build
+name: Azure CloudResumeIAC bui1ld
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
