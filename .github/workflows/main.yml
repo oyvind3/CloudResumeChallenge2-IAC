@@ -24,9 +24,9 @@ jobs:
 
 
     - name: az bicep deploy
-      working-directory: '${github.workspace}./'
+      working-directory: '${github.workspace}.\'
       run: |
-        az deployment group create --what-if --template-file ./main.bicep
+        az deployment group create --what-if --template-file .\main.bicep
   
   deploy:
     name: 'bicep deploy'
@@ -36,14 +36,14 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: azure azure/login
-        uses: azure/login
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: az bicep deploy
-        working-directory: '${{github.workspace}}./'
+        working-directory: '${{github.workspace}}.\'
         run: | 
-            az deployment group create  --template-file ./main.bicep
+            az deployment group create  --template-file .\main.bicep
 
 
 
