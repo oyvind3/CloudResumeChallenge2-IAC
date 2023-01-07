@@ -10,7 +10,7 @@ env:
 
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,19 +22,28 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - uses: azure/CLI@v1
-      with:
-        inlineScript: |
-        az account show
-        az version
-        az group create -n $RESOURCE_GROUP -l westeurope
 
-      # Deploy Bicep file
-    - name: deploy
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
-        template: ./main.bicep
-        failOnStdErr: false
+    - name: az bicep deploy
+      working-directory: '${github.workspace}./'
+      run: |
+        az deployment group create --what-if --template-file ./main.bicep
+  
+  deploy:
+    name: 'bicep deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: azure azure/login
+        uses: azure/login
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: az bicep deploy
+        working-directory: '${{github.workspace}}./'
+        run: | 
+            az deployment group create  --template-file ./main.bicep
+
+
 
