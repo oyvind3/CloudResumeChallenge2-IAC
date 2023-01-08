@@ -1,19 +1,10 @@
-on:
-    push:
-        branches: [ main ]
-
-name: Azure CloudResumeIAC bui1ld
-
-env:
-  RESOURCE_GROUP: rg-bicep-github-action-1
-  WEBAPP_NAME: BICEP_web_1
-
-
+on: [push]
+name: 🧿🧿Azure bicep deploy
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
+
       # Checkout code
     - uses: actions/checkout@main
 
@@ -22,28 +13,9 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-
-    - name: az bicep deploy
-      working-directory: '${github.workspace}.\'
-      run: |
-        az deployment group create --what-if --template-file .\main.bicep
-  
-  deploy:
-    name: 'bicep deploy'
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: azure azure/login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: az bicep deploy
-        working-directory: '${{github.workspace}}.\'
-        run: | 
-            az deployment group create  --template-file .\main.bicep
-
-
-
+      # Deploy Bicep file
+    - name: 🧿deployBicep
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        template: ./main.bicep

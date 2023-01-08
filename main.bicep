@@ -1,14 +1,13 @@
 targetScope = 'subscription'
+param utc string = utcNow()
+var resourcegroupname  = 'RGOF${uniqueString(utc)}'
 
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
-  name: 'testbicepRG'
+  name: resourcegroupname
   location: 'westeurope'
 }
 
 module stg './storage.bicep' = {
-  name: 'StorageDeployment2'
+  name: 'storagemodule12'
   scope: rg
-  params: {
-    storageAccountName: 'oyvindbicep'
-  }
 }
