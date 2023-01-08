@@ -1,5 +1,8 @@
 on: [push]
 name: 🧿🧿Azure bicep deploy
+env:
+  bicepfilePath: ./main.bicep
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -15,7 +18,8 @@ jobs:
 
       # Deploy Bicep file
     - name: 🧿deployBicep
-      uses: azure/arm-deploy@v1
+      uses: Azure/cli@v1
       with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        template: ./main.bicep
+        inlineScript: |
+          az deployment group create \
+          --template-file ${{  env.bicepfilePath }} \
