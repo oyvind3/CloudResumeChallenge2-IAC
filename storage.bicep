@@ -4,9 +4,14 @@ var storageaccountname  = 'saof${uniqueString(utc)}'
 
 resource stg 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageaccountname
+  properties: {
+    tags: {
+      test: 'test'
+    }
+  }
   location: location
   sku: {
     name: 'Standard_LRS'
   }
   kind: 'StorageV2'
-}
+ }

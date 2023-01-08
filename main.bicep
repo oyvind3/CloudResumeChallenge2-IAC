@@ -1,6 +1,6 @@
 targetScope = 'subscription'
 param utc string = utcNow()
-var resourcegroupname  = 'RGOF${uniqueString(utc)}'
+var resourcegroupname  = 'rg${uniqueString(utc)}'
 
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: resourcegroupname
