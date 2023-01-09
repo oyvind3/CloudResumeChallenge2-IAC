@@ -1,13 +1,11 @@
 param location string = resourceGroup().location
 param utc string = utcNow()
-var storageaccountname  = 'saof${uniqueString(utc)}'
+var storageaccountname  = 'cloudOF${uniqueString(utc)}'
 
 resource stg 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageaccountname
-  properties: {
-    tags: {
-      test: 'test'
-    }
+  tags: {
+    'enviroment ' : 'testtags2'
   }
   location: location
   sku: {
