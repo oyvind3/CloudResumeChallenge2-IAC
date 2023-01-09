@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 @secure()
-param utc string = utcNow()
-var resourcegroupname  = 'rgof${uniqueString(utc)}'
+//param utc string = utcNow()
+param resourcegroupname string
 
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: resourcegroupname
@@ -13,7 +13,15 @@ module stg './storage.bicep' = {
   scope: rg
 }
 
-module storageAccounts_cloudresumeoyvind_name_resource './storage2.bicep' = {
-  name: 'storagemodulev2'
+module stg2 './storage2.bicep' = {
+  name: 'Correctstorage12'
+  scope: rg
+}
+
+module cdn 'cdn.bicep' = {
+  name: 'moduleforbicepcdn'
+  params: {
+    
+  }
   scope: rg
 }
