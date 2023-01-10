@@ -1,7 +1,6 @@
-param storageaccountname string = 'of${uniqueString(resourceGroup().id)}'
+param storageaccountname string = 'cloudresumeoyvind222'
 param location string = resourceGroup().location
-var filesharename = 'blob${uniqueString(resourceGroup().id)}'
-var blobname = 'blob${uniqueString(resourceGroup().id)}'
+
 
 resource stg2 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   name: storageaccountname
@@ -50,9 +49,9 @@ resource stg2 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   }
 }
 
-resource storageAccounts_cloudresumeoyvind_name_default 'Microsoft.Storage/storageAccounts/blobServices@2022-05-01' = {
+resource storageAccounts_cloudresumeoyvind_name_default 'Microsoft.Storage/storageAccounts/blobServices@2021-09-01' = {
   parent: stg2
-  name: blobname
+  name: 'default'
   sku: {
     name: 'Standard_LRS'
     tier: 'Standard'
@@ -80,9 +79,9 @@ resource storageAccounts_cloudresumeoyvind_name_default 'Microsoft.Storage/stora
   }
 }
 
-resource Microsoft_Storage_storageAccounts_fileServices_storageAccounts_cloudresumeoyvind_name_default 'Microsoft.Storage/storageAccounts/fileServices@2022-05-01' = {
+resource Microsoft_Storage_storageAccounts_fileServices_storageAccounts_cloudresumeoyvind_name_default 'Microsoft.Storage/storageAccounts/fileServices@2021-09-01' = {
   parent: stg2
-  name: filesharename
+  name: 'default'
   sku: {
     name: 'Standard_LRS'
     tier: 'Standard'
