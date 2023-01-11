@@ -2,11 +2,10 @@ param utc string = utcNow()
 var profiles_cdncloudresume_name  = 'cdnof${uniqueString(utc)}'
 var profilesname = 'ofprofile${uniqueString(utc)}'
 var endpointName = 'endpoint-${uniqueString(resourceGroup().id)}'
-param storageAccountHostName string
 
 
 module stg2 'storage2.bicep' = {
-  name: 
+  name: 'attach-endpoint-to-cdn'
 }
 
 
@@ -29,7 +28,7 @@ resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpo
   name: endpointName
   location: 'Global'
   properties: {
-    originHostHeader: storageAccountHostName
+    originHostHeader: stg2.outputs.blobEndpoint
     contentTypesToCompress: [
       'application/eot'
       'application/font'
@@ -81,10 +80,10 @@ resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpo
       {
         name: profilesname
         properties: {
-          hostName: storageAccountHostName
+          hostName: stg2.outputs.blobEndpoint
           httpPort: 80
           httpsPort: 443
-          originHostHeader: storageAccountHostName
+          originHostHeader: stg2.outputs.blobEndpoint
           priority: 1
           weight: 1000
           enabled: true
@@ -136,26 +135,14 @@ resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpo
   }
 }
 
-resource endpoint1 'Microsoft.Cdn/profiles/endpoints/customdomains@2022-05-01-preview' = {
-  parent: profiles_cdncloudresume_name_finsrudcloud
-  name: 'resume-finsrud-cloud'
-  properties: {
-    hostName: 'resume.finsrud.cloud'
-  }
-  dependsOn: [
-
-    cdn
-  ]
-}
-
 resource endpoint2 'Microsoft.Cdn/profiles/endpoints/origins@2022-05-01-preview' = {
   parent: profiles_cdncloudresume_name_finsrudcloud
   name: profilesname
   properties: {
-    hostName: storageAccountHostName
+    hostName: stg2.outputs.blobEndpoint
     httpPort: 80
     httpsPort: 443
-    originHostHeader: storageAccountHostName
+    originHostHeader: stg2.outputs.blobEndpoint
     priority: 1
     weight: 1000
     enabled: true
@@ -165,7 +152,5 @@ resource endpoint2 'Microsoft.Cdn/profiles/endpoints/origins@2022-05-01-preview'
     cdn
   ]
 }
-output hostName string = endpoint1.properties.hostName
-output originHostHeader string = endpoint1.properties.originHostHeader
 output hostName2 string = endpoint2.properties.hostName
 output originHostHeader2 string = endpoint2.properties.originHostHeader

@@ -3,6 +3,7 @@ targetScope = 'subscription'
 //param utc string = utcNow()
 param resourcegroupname string
 
+
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: resourcegroupname
   location: 'westeurope'
@@ -18,10 +19,13 @@ module stg2 './storage2.bicep' = {
   scope: rg
 }
 
-//module cdn 'cdn.bicep' = {
-//  name: 'moduleforbicepcdn'
-  //params: {
+module cdn 'cdn.bicep' = {
+  name: 'moduleforbicepcdn'
+  params: {
     
-  //}
-  //scope: rg
-//}
+   }
+   dependsOn: [
+    stg2
+   ]
+  scope: rg
+}
