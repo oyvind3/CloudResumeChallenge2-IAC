@@ -2,7 +2,7 @@ param utc string = utcNow()
 var profiles_cdncloudresume_name  = 'cdnof${uniqueString(utc)}'
 var profilesname = 'ofprofile${uniqueString(utc)}'
 var endpointName = 'endpoint-${uniqueString(resourceGroup().id)}'
-
+var customdomainna = 'domain${uniqueString(resourceGroup().id)}'
 
 module stg2 'storage2.bicep' = {
   name: 'attach-endpoint-to-cdn'
@@ -135,7 +135,7 @@ resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpo
   }
 }
 
-resource endpoint2 'Microsoft.Cdn/profiles/endpoints/origins@2022-05-01-preview' = {
+resource endpoint2 'Microsoft.Cdn/profiles/endpoints/origins@2022-11-01-preview' = {
   parent: profiles_cdncloudresume_name_finsrudcloud
   name: profilesname
   properties: {
@@ -149,8 +149,20 @@ resource endpoint2 'Microsoft.Cdn/profiles/endpoints/origins@2022-05-01-preview'
   }
   dependsOn: [
 
-    cdn
+    profiles_cdncloudresume_name_finsrudcloud
   ]
 }
+
+resource customdomain 'Microsoft.Cdn/profiles/endpoints/customDomains@2022-11-01-preview' ={
+  parent: profiles_cdncloudresume_name_finsrudcloud
+  name: customdomainna
+  properties:{
+    hostName: 'test.finsrud.cloud'
+  }
+  dependsOn:[
+    profiles_cdncloudresume_name_finsrudcloud
+  ]
+}
+
 output hostName2 string = endpoint2.properties.hostName
 output originHostHeader2 string = endpoint2.properties.originHostHeader

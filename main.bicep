@@ -2,11 +2,12 @@ targetScope = 'subscription'
 @secure()
 //param utc string = utcNow()
 param resourcegroupname string
+param resourcegrouplocation string
 
 
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: resourcegroupname
-  location: 'westeurope'
+  location: resourcegrouplocation
 }
 
 //module stg './storage.bicep' = {
