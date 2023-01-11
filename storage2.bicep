@@ -49,7 +49,7 @@ resource stg2 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   }
 }
 
-resource storageAccounts_cloudresumeoyvind_name_default 'Microsoft.Storage/storageAccounts/blobServices@2021-09-01' = {
+resource ofblob 'Microsoft.Storage/storageAccounts/blobServices@2022-09-01' = {
   parent: stg2
   name: 'default'
   sku: {
@@ -79,7 +79,7 @@ resource storageAccounts_cloudresumeoyvind_name_default 'Microsoft.Storage/stora
   }
 }
 
-resource Microsoft_Storage_storageAccounts_fileServices_storageAccounts_cloudresumeoyvind_name_default 'Microsoft.Storage/storageAccounts/fileServices@2021-09-01' = {
+resource offileshare 'Microsoft.Storage/storageAccounts/fileServices@2021-09-01' = {
   parent: stg2
   name: 'default'
   sku: {
@@ -87,13 +87,6 @@ resource Microsoft_Storage_storageAccounts_fileServices_storageAccounts_cloudres
     tier: 'Standard'
   }
   properties: {
-    protocolSettings: {
-      smb: {
-      }
-    }
-    cors: {
-      corsRules: []
-    }
     shareDeleteRetentionPolicy: {
       enabled: true
       days: 7
@@ -101,6 +94,5 @@ resource Microsoft_Storage_storageAccounts_fileServices_storageAccounts_cloudres
   }
 }
 
-output name1 string = storageaccountname
-
+output name string = storageaccountname
 output blobEndpoint string = replace(replace(stg2.properties.primaryEndpoints.blob, 'https://', ''), '/', '')
