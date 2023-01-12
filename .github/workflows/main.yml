@@ -21,7 +21,7 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-          az deployment sub create --location "west europe" --template-file ${{env.biceppath}}
+          az deployment sub create --location West Europe --template-file ${{env.biceppath}}
    #second build starts       
   test-deploy:
     needs: [build-and-deploy]
