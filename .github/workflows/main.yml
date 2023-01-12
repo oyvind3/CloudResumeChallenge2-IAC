@@ -3,6 +3,7 @@ name: 🧿🧿Azure bicep deploy
 env:
   bicepfilePath: ./main.bicep
   biceppath: ./*.bicep
+  location: "WestEurope"
 
 jobs:
   build-and-deploy:
@@ -21,7 +22,7 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-          az deployment sub create --location West Europe --template-file ${{env.biceppath}}
+          az deployment sub create --location ${{env.location}} --template-file ${{env.biceppath}}
    #second build starts       
   test-deploy:
     needs: [build-and-deploy]
@@ -49,7 +50,7 @@ jobs:
        with:
          inlineScript: |
             az cdn endpoint purge --content-paths  "/*" --profile-name "cdnofzpcph7h4irqa4" --name "finsrudcloud2" --resource-group "rgof1212"
-      # Azure logout
+      ##Azure logout
      - name: logout
        run: |
             az logout
