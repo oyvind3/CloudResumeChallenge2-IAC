@@ -1,7 +1,8 @@
 param utc string = utcNow()
-var profiles_cdncloudresume_name  = 'cdnof${uniqueString(utc)}'
+//var profiles_cdncloudresume_name  = 'cdnof${uniqueString(utc)}'
+var profiles_cdncloudresume_name = 'cdnofzpcph7h4irqa4'
 var profilesname = 'ofprofile${uniqueString(utc)}'
-var endpointName = 'endpoint-${uniqueString(resourceGroup().id)}'
+var endpointName = 'finsrudcloud2'
 var customdomainna = 'domain${uniqueString(resourceGroup().id)}'
 
 module stg2 'storage2.bicep' = {
@@ -157,7 +158,7 @@ resource customdomain 'Microsoft.Cdn/profiles/endpoints/customDomains@2022-11-01
   parent: profiles_cdncloudresume_name_finsrudcloud
   name: customdomainna
   properties:{
-    hostName: 'test.finsrud.cloud'
+    hostName: 'testt.finsrud.cloud'
   }
   dependsOn:[
     profiles_cdncloudresume_name_finsrudcloud

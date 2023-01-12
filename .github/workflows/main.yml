@@ -2,12 +2,12 @@ on: [push]
 name: 🧿🧿Azure bicep deploy
 env:
   bicepfilePath: ./main.bicep
+  biceppath: ./*.bicep
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-
       # Checkout code
     - uses: actions/checkout@main
 
@@ -21,5 +21,36 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-          az deployment group create \
-          --template-file ${{  env.bicepfilePath }} \
+          az deployment sub create --location "west europe" --template-file ${{env.biceppath}}
+   #second build starts       
+  test-deploy:
+    needs: [build-and-deploy]
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - uses: azure/login@v1
+       with: 
+           creds: ${{ secrets.AZURE_CREDENTIALS }}
+     - name: create folder
+       uses: azure/CLI@v1
+       with:
+         inlineScript: |
+          az storage container create -n $web --account-name cloudresumeoyvind222
+               
+     - name: Upload to blob storagebl
+       uses: azure/CLI@v1
+       with:
+         inlineScript: |
+             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode key --pattern *.html --overwrite true -d '$web' -s .
+             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode key --pattern *.css --overwrite true -d '$web' -s .
+             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode key --pattern *.js --overwrite true -d '$web' -s .
+     - name: Purge CDN endpoint
+       uses: azure/CLI@v1
+       with:
+         inlineScript: |
+            az cdn endpoint purge --content-paths  "/*" --profile-name "cdnofzpcph7h4irqa4" --name "finsrudcloud2" --resource-group "rgof1212"
+      # Azure logout
+     - name: logout
+       run: |
+            az logout
+       if: always()
