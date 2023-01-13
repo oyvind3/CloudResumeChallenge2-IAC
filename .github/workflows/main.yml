@@ -55,10 +55,10 @@ jobs:
         with:
           inlineScript: |
             az deployment sub create  \
-            --name ${{env.deployName}}
-             --location ${{env.resourceGroupLocation}} 
+            --name ${{env.deployName}} \
+            --location WestUS \
             --template-file ${{env.bicepfilePath}} \
-            --resource-group ${{env.resourceGroupName}} \        
+            --resource-group ${{env.resourceGroupName}}     
           
    #second build starts       
   test-deploy:
