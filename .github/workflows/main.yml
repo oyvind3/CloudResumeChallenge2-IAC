@@ -58,7 +58,6 @@ jobs:
             --name ${{env.deployName}} \
             --location WestUS \
             --template-file ${{env.bicepfilePath}} \
-            --resource-group ${{env.resourceGroupName}}     
           
    #second build starts       
   test-deploy:
