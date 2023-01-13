@@ -3,7 +3,7 @@ name: 🧿🧿Azure bicep deploy
 env:
   resourceGroupName: rgoyvind1201
   bicepfilePath: ./main.bicep
-  resourceGroupLocation: westeurope
+  resourceGroupLocation: uksouth
   storageAccountName: cloudresumeoyvind222
   outputFilePath: ./main.json
   deployName: oyvinddeploy131
