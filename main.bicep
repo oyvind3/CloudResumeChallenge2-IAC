@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 @secure()
 //param utc string = utcNow()
-param resourcegroupname string = 'rgoyvind1201'
+param resourcegroupname string
 param resourcegrouplocation string
 
 
