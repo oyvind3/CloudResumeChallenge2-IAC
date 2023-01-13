@@ -1,50 +1,83 @@
 on: [push]
 name: 🧿🧿Azure bicep deploy
 env:
+  resourceGroupName: oyvindtestrg
   bicepfilePath: ./main.bicep
-  biceppath: ./*.bicep
-  location: "WestEurope"
+  resourceGroupLocation: westeurope
+  storageAccountName: cloudresumeoyvind222
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       # Checkout code
     - uses: actions/checkout@main
 
-      # Log into Azure
-    - uses: azure/login@v1
+        # Builds the Bicep template
+    - name: bicep-build-output
+      uses: Azure/bicep-build-action@v1.0.1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        bicepFilePath: ${{  env.bicepfilePath }}
+        outputFilePath: ./main.json
 
-      # Deploy Bicep file
-    - name: 🧿deployBicep
-      uses: Azure/cli@v1
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
       with:
-        inlineScript: |
-          az deployment sub create --name demoSubDeployment  --loaction westeurope --template-file ${{env.biceppath}}
+        path: ./main.json
+        
+  
+  deploybicep:
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+      - uses: actions/checkout@main
+
+      # Log into Azure
+      - name: loginazure🧿💙
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: createdependencies🧿
+        uses: azure/cli@v1
+        with:
+          inlineScript: |
+            az group create \
+            --name ${{ env.resourceGroupName }} \
+            --location ${{ env.resourceGroupLocation }}
+
+      - name: deploybicep💪🐝
+        uses: azure/cli@v1   
+        with:
+          inlineScript: |
+            az deployment sub create \
+            --template-file ${{env.bicepfilePath}} \
+            --resource-group ${{env.resourceGroupName}}         
+          
    #second build starts       
   test-deploy:
-    needs: [build-and-deploy]
+    needs: [deploybicep]
     runs-on: ubuntu-latest
     steps:
      - uses: actions/checkout@v2
      - uses: azure/login@v1
        with: 
            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
      - name: create folder
        uses: azure/CLI@v1
        with:
          inlineScript: |
-          az storage container create -n $web --account-name cloudresumeoyvind222
+          az storage container create -n $web --account-name ${{env.storageAccountName}}
                
      - name: Upload to blob storagebl
        uses: azure/CLI@v1
        with:
          inlineScript: |
-             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode key --pattern *.html --overwrite true -d '$web' -s .
-             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode key --pattern *.css --overwrite true -d '$web' -s .
-             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode key --pattern *.js --overwrite true -d '$web' -s .
+             az storage blob upload-batch --account-name ${{env.storageAccountName}} --auth-mode key --pattern *.html --overwrite true -d '$web' -s .
+             az storage blob upload-batch --account-name ${{env.storageAccountName}} --auth-mode key --pattern *.css --overwrite true -d '$web' -s .
+             az storage blob upload-batch --account-name ${{env.storageAccountName}} --auth-mode key --pattern *.js --overwrite true -d '$web' -s .
      - name: Purge CDN endpoint
        uses: azure/CLI@v1
        with:
