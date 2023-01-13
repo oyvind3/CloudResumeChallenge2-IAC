@@ -48,7 +48,8 @@ jobs:
           inlineScript: |
            az deployment sub create \
            --name demoSubDeployment  \
-           --location ${{ env.resourceGroupLocation }}
+           --location ${{ env.resourceGroupLocation }} \
+           --template-file ${{ env.outputFilePath }}
 
       - name: deploybicep2
         uses: azure/arm-deploy@v1
