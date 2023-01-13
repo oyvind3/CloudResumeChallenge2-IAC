@@ -51,7 +51,7 @@ jobs:
         uses: azure/cli@v1   
         with:
           inlineScript: |
-            az deployment sub create \
+           az deployment group create  \
             --template-file ${{env.bicepfilePath}} \
             --resource-group ${{env.resourceGroupName}} \
             --location ${{env.resourceGroupLocation}}         
