@@ -1,9 +1,5 @@
 targetScope = 'subscription'
-@secure()
 //param utc string = utcNow()
-param resourcegroupname string
-param resourcegrouplocation string
-
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
   name: 'rgoyvind1201'
