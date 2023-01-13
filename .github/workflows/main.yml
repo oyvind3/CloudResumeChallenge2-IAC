@@ -46,8 +46,8 @@ jobs:
         uses: azure/cli@v1
         with:
           inlineScript: |
-           az sub create \
-           --name ${{ env.resourceGroupName }} \
+           az deployment sub create \
+           --name demoSubDeployment  \
            --location ${{ env.resourceGroupLocation }}
 
       - name: deploybicep2
