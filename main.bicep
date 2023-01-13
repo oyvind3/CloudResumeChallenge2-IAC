@@ -5,10 +5,14 @@ param resourcegroupname string
 param resourcegrouplocation string
 
 
-resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
-  name: resourcegroupname
-  location: resourcegrouplocation
+resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
+  name: 'rgoyvind1201'
 }
+
+//resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
+//  name: resourcegroupname
+//  location: resourcegrouplocation
+//}
 
 //module stg './storage.bicep' = {
 //  name: 'storagemodule12'

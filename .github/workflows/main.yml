@@ -49,7 +49,7 @@ jobs:
            az group create \
            --name ${{ env.resourceGroupName }} \
            --location ${{ env.resourceGroupLocation }}
-           
+
       - name: deploybicep2
         uses: azure/arm-deploy@v1
         with:
@@ -58,14 +58,14 @@ jobs:
           template: ${{env.bicepfilePath}}
           failOnStdErr: false
 
-      - name: deploybicep💪🐝
-        uses: azure/cli@v1   
-        with:
-          inlineScript: |
-            az deployment sub create  \
-            --name ${{env.deployName}} \
-            --location ${{env.resourceGroupLocation}} \
-            --template-file ${{env.bicepfilePath}} \
+      #- name: deploybicep💪🐝
+      #  uses: azure/cli@v1   
+      #  with:
+      #    inlineScript: |
+      #      az deployment sub create  \
+      #      --name ${{env.deployName}} \
+      #      --location ${{env.resourceGroupLocation}} \
+      #      --template-file ${{env.bicepfilePath}} \
           
    #second build starts       
   test-deploy:
