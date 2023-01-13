@@ -3,7 +3,7 @@ name: 🧿🧿Azure bicep deploy
 env:
   resourceGroupName: rgoyvind1201
   bicepfilePath: ./main.bicep
-  resourceGroupLocation: uksouth
+  resourceGroupLocation: WestUS 
   storageAccountName: cloudresumeoyvind222
   outputFilePath: ./main.json
   deployName: oyvinddeploy131
@@ -56,9 +56,9 @@ jobs:
           inlineScript: |
             az deployment sub create  \
             --name ${{env.deployName}}
+             --location ${{env.resourceGroupLocation}} 
             --template-file ${{env.bicepfilePath}} \
-            --resource-group ${{env.resourceGroupName}} \
-            --location ${{env.resourceGroupLocation}}         
+            --resource-group ${{env.resourceGroupName}} \        
           
    #second build starts       
   test-deploy:
