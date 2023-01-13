@@ -49,11 +49,13 @@ jobs:
        with: 
            creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-     - name: create folder
+     - name: create-folder
        uses: azure/CLI@v1
        with:
          inlineScript: |
-          az storage container create -n $web --account-name ${{env.storageAccountName}}
+          az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
+          az storage blob service-properties update --account-name cloudresumeoyvind222 --static-website --404-document error.html --index-document index.html
+ 
   wait-for-folder:
     needs: [test-deploy]
     runs-on: ubuntu-latest
