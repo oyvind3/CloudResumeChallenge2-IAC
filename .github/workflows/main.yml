@@ -7,47 +7,27 @@ env:
   storageAccountName: cloudresumeoyvind222
   outputFilePath: ./main.json
   deployName: oyvinddeploy131
-  
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checkout code
-    - uses: actions/checkout@main
-
-        # Builds the Bicep template
-    - name: bicep-build-output
-      uses: Azure/bicep-build-action@v1.0.1
-      with:
-        bicepFilePath: ${{  env.bicepfilePath }}
-        outputFilePath: ./main.json
-
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.1
-      with:
-        path: ./main.json
-        
-  
-  deploybicep:
-    runs-on: ubuntu-latest
-    needs: [build]
-
-    steps:
       - uses: actions/checkout@main
-
-      # Log into Azure
+      - name: bicep-build-output
+        uses: Azure/bicep-build-action@v1.0.1
+        with:
+          bicepFilePath: ${{  env.bicepfilePath }}
+          outputFilePath: ${{ env.outputFilePath }}
       - name: loginazure🧿💙
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
       - name: deploybicep2
-        uses: azure/arm-deploy@v1
+        uses: azure/arm-deploy@v2
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{env.resourceGroupName}}
-          template: ${{env.bicepfilePath}}
+          template: ${{ env.outputFilePath }}
           failOnStdErr: false
 
       #- name: deploybicep💪🐝
@@ -61,7 +41,7 @@ jobs:
           
    #second build starts       
   test-deploy:
-    needs: [deploybicep]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
      - uses: actions/checkout@v2
