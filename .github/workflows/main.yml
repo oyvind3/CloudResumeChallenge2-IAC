@@ -53,7 +53,8 @@ jobs:
           inlineScript: |
             az deployment sub create \
             --template-file ${{env.bicepfilePath}} \
-            --resource-group ${{env.resourceGroupName}}         
+            --resource-group ${{env.resourceGroupName}} \
+            --location ${{env.resourceGroupLocation}}         
           
    #second build starts       
   test-deploy:
