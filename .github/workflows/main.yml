@@ -41,21 +41,14 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: createdependencies🧿
-        uses: azure/cli@v1
+    
+      - name: deploybicep2
+        uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{env.resourceGroupName}}
-          template: ./main.bicep
-    
-    #  - name: deploybicep2
-    #    uses: azure/arm-deploy@v1
-    #    with:
-    #      subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-    #      resourceGroupName: ${{env.resourceGroupName}}
-    #      template: ${{env.bicepfilePath}}
-    #      failOnStdErr: false
+          template: ${{env.bicepfilePath}}
+          failOnStdErr: false
 
       #- name: deploybicep💪🐝
       #  uses: azure/cli@v1   
