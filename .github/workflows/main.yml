@@ -67,11 +67,11 @@ jobs:
              az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode login --pattern *.html --overwrite true -d '$web' -s .
              az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode login --pattern *.css --overwrite true -d '$web' -s .
              az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode login --pattern *.js --overwrite true -d '$web' -s .
-     - name: Purge CDN endpoint
-       uses: azure/CLI@v1
-       with:
-         inlineScript: |
-            az cdn endpoint purge --content-paths  "/*" --profile-name "cdnofzpcph7h4irqa4" --name "finsrudcloud2" --resource-group ${{env.resourceGroupName}}
+   #  - name: Purge CDN endpoint
+   #    uses: azure/CLI@v1
+   #    with:
+    #     inlineScript: |
+     #       az cdn endpoint purge --content-paths  "/*" --profile-name "cdnofzpcph7h4irqa4" --name "finsrudcloud2" --resource-group ${{env.resourceGroupName}}
       ##Azure logout
      - name: logout
        run: |
