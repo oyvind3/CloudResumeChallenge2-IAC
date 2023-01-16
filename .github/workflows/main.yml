@@ -70,6 +70,7 @@ jobs:
        with:
          inlineScript: |
             start-sleep -Seconds 300
+         azPSVersion: "latest"   
         
      - name: Upload to blob storagebl
        uses: azure/CLI@v1
