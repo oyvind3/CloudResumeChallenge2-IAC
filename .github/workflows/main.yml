@@ -76,9 +76,10 @@ jobs:
        uses: azure/CLI@v1
        with:
          inlineScript: |
-             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode login --pattern *.html --overwrite true -d '$web' -s .
-             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode login --pattern *.css --overwrite true -d '$web' -s .
-             az storage blob upload-batch --account-name cloudresumeoyvind222 --auth-mode login --pattern *.js --overwrite true -d '$web' -s .
+             az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
+             az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.html --overwrite true -s .
+             az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.css --overwrite true  -s .
+             az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.js --overwrite true   -s .
    #  - name: Purge CDN endpoint
    #    uses: azure/CLI@v1
    #    with:
