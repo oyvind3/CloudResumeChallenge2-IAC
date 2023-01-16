@@ -75,6 +75,7 @@ jobs:
      - name: Upload to blob storagebl
        uses: azure/CLI@v1
        with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
          inlineScript: |
              az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
              az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.html --overwrite true -s .
