@@ -75,7 +75,6 @@ jobs:
 
 
   wait-for-testdeploy:
-    needs: [wait-for-folder]
     runs-on: ubuntu-latest
     steps:
       - name: Upload to blob storage
