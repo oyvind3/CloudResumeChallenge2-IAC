@@ -77,17 +77,18 @@ jobs:
   wait-for-testdeploy:
     runs-on: ubuntu-latest
     steps:
-      - name: login
-        uses: azure/login@v1
-        with: 
-           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: actions/checkout@v2
+      -  uses: azure/login@v1
+         with: 
+             creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Upload to blob storage
         uses: azure/CLI@v1
         with:
           inlineScript: |
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode login --pattern *.html --overwrite true -s .
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode login --pattern *.css --overwrite true  -s .
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode login --pattern *.js --overwrite true   -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.html --overwrite true -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.css --overwrite true  -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.js --overwrite true   -s .
       - name: logout
         run: |
                az logout 
