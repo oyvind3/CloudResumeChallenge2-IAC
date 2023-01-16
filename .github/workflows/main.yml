@@ -64,6 +64,13 @@ jobs:
        uses: azure/login@v1
        with: 
            creds: ${{ secrets.AZURE_CREDENTIALS }}
+           
+     - name: added waiting time
+       uses: azure/powershell@v1
+       with:
+         inlineScript: |
+            start-sleep -Seconds 300
+        
      - name: Upload to blob storagebl
        uses: azure/CLI@v1
        with:
