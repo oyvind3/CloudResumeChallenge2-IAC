@@ -72,7 +72,7 @@ jobs:
             start-sleep -Seconds 150
          azPSVersion: "latest"   
         
-     - name: Upload to blob storagebl
+     - name: Upload to blob storage
        uses: azure/CLI@v1
        with:
          creds: ${{ secrets.AZURE_CREDENTIALS }}
