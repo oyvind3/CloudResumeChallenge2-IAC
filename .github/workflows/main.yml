@@ -75,6 +75,7 @@ jobs:
 
 #added actions/checkout@v2, else the az storage upload-batch will not fetch any data from the repository
   wait-for-testdeploy:
+    needs: [test-deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
