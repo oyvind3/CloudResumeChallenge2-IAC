@@ -81,6 +81,7 @@ resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpo
       {
         name: profilesname
         properties: {
+          
           hostName: stg2.outputs.blobEndpoint
           httpPort: 80
           httpsPort: 443

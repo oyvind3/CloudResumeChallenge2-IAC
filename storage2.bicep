@@ -95,4 +95,4 @@ resource offileshare 'Microsoft.Storage/storageAccounts/fileServices@2021-09-01'
 }
 
 output name string = storageaccountname
-output blobEndpoint string = replace(replace(stg2.properties.primaryEndpoints.blob, 'https://', ''), '/', '')
+output blobEndpoint string = replace(replace(stg2.properties.primaryEndpoints.web, 'https://', ''), '/', '')

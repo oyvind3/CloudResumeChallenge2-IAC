@@ -66,12 +66,12 @@ jobs:
        with: 
            creds: ${{ secrets.AZURE_CREDENTIALS }}
            
-     - name: added waiting time
-       uses: azure/powershell@v1
-       with:
-         inlineScript: |
-            start-sleep -Seconds 25
-            azPSVersion: "latest"
+#    - name: added waiting time
+#       uses: azure/powershell@v1
+#       with:
+#         inlineScript: |
+#            start-sleep -Seconds 25
+#            azPSVersion: "latest"
 
 #added actions/checkout@v2, else the az storage upload-batch will not fetch any data from the repository
   wait-for-testdeploy:
