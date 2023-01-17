@@ -93,12 +93,13 @@ jobs:
         run: |
                az logout 
         if: always()
-  wait-for-upload:
+  wait-for-upload1:
+    needs: [wait-for-testdeploy]
     runs-on: ubuntu-latest
     steps:
       - uses: azure/login@v1
         with: 
-         creds: ${{ secrets.AZURE_CREDENTIALS }
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: enable https for custom domain
         uses: azure/CLI@v1
         with:
