@@ -87,7 +87,7 @@ resource hostingPlanName_resource 'Microsoft.Web/serverfarms@2018-11-01' = {
   dependsOn: []
 }
 
-resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2019-06-01' = {
+resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName
   location: location
   tags: {
@@ -97,22 +97,53 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2019-06-
     name: 'Standard_LRS'
   }
   properties: {
+    accessTier: 'Hot'
+  
     supportsHttpsTrafficOnly: true
     minimumTlsVersion: 'TLS1_2'
   }
+  
 }
 resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
   dependsOn: [
     name_resource
   ]
-  name: '${name_resource.name}/${functionNameComputed}'
+  name: name
   properties: {
     config: {
       disabled: false
+      bindings: [
+        {
+          name: 'req'
+          type: 'httpTrigger'
+          direction: 'in'
+          authLevel: 'anonymous'
+          route: 'visit/{partitionKey}/{id}'
+          methods: [
+            'get'
+          ]
+        }
+        {
+          name: '$return'
+          type: 'http'
+          direction: 'out'
+        }
+        {
+          type: 'cosmosDB'
+          direction: 'in'
+          name: 'inputDocument'
+          databaseName: 'visitordb'
+          collectionName: 'visit'
+          connectionStringSetting: 'oyvindcloud2_DOCUMENTDB'
+          id: '{id}'
+          partitionKey: '{partitionKey}'
+
+        }
+      ]
+    } 
       files: {
        '__init__.py': loadTextContent('HttpTrigger/__init__.py')
-       'function.json': loadJsonContent('HttpTrigger/function.json')
+       'function.json': loadTextContent('HttpTrigger/function.json')
       }
     }
-  }
 }
