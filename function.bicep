@@ -106,23 +106,10 @@ resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
   properties: {
     config: {
       disabled: false
-      bindings: [
-        {
-          name: 'req'
-          type: 'httpTrigger'
-          direction: 'in'
-          authLevel: 'function'
-          methods: [
-            'get'
-          ]
-        }
-        {
-          name: '$return'
-          type: 'http'
-          direction: 'out'
-        }
-      ]
+      files: {
+       '__init__.py': loadTextContent('HttpTrigger/__init__.py')
+       'function.json': loadJsonContent('HttpTrigger/function.json')
+      }
     }
-
   }
 }
