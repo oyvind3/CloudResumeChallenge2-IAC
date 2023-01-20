@@ -15,11 +15,10 @@ env:
   PYTHON_VERSION: '3.9'
 
 jobs:
-  # This workflow contains a single job called "build"
   prebuild-azure-enviroment:
     runs-on: ubuntu-latest
     steps:
-      - name: test
+      - name: test login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
