@@ -15,6 +15,9 @@ param skuCode string = 'Y1'
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
   name: name
+  dependsOn:[
+    hostingPlanName_resource
+  ]
   kind: 'functionapp,linux'
   location: location
   tags: {
@@ -60,10 +63,6 @@ resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
     httpsOnly: true
     publicNetworkAccess: 'Enabled'
   }
-  dependsOn: [
-    hostingPlanName_resource
-
-  ]
 }
 
 resource hostingPlanName_resource 'Microsoft.Web/serverfarms@2018-11-01' = {
