@@ -12,6 +12,7 @@ param numberOfWorkers int = 1
 param sku string = 'dynamic'
 param workerSizeId int = 1
 param skuCode string = 'Y1'
+var functionNameComputed = 'HttpTrigger'
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
   name: name
@@ -98,5 +99,30 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2019-06-
   properties: {
     supportsHttpsTrafficOnly: true
     minimumTlsVersion: 'TLS1_2'
+  }
+}
+resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
+  name: '${name_resource.name}/${functionNameComputed}'
+  properties: {
+    config: {
+      disabled: false
+      bindings: [
+        {
+          name: 'req'
+          type: 'httpTrigger'
+          direction: 'in'
+          authLevel: 'function'
+          methods: [
+            'get'
+          ]
+        }
+        {
+          name: '$return'
+          type: 'http'
+          direction: 'out'
+        }
+      ]
+    }
+
   }
 }
