@@ -102,6 +102,9 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2019-06-
   }
 }
 resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
+  dependsOn: [
+    name_resource
+  ]
   name: '${name_resource.name}/${functionNameComputed}'
   properties: {
     config: {
