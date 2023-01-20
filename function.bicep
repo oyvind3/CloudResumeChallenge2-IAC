@@ -90,25 +90,15 @@ resource hostingPlanName_resource 'Microsoft.Web/serverfarms@2018-11-01' = {
 resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName
   location: location
-  tags: {
-    tst: 'bicep'
-  }
-  sku: {
-    name: 'Standard_LRS'
-  }
-  properties: {
-    accessTier: 'Hot'
-  
-    supportsHttpsTrafficOnly: true
-    minimumTlsVersion: 'TLS1_2'
-  }
+  kind:'StorageV2'
+  sku: 'Standard_LRS'
   
 }
 resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
   dependsOn: [
     name_resource
   ]
-  name: name
+  name: functionNameComputed
   properties: {
     config: {
       disabled: false
