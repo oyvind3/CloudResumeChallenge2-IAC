@@ -99,10 +99,8 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-
 
 }
 resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
-  dependsOn: [
-    name_resource
-  ]
   name: functionNameComputed
+  parent: name_resource
   properties: {
     config: {
       disabled: false
