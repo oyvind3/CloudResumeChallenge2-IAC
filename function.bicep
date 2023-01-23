@@ -98,12 +98,28 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-
   
 
 }
-resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
+resource function 'Microsoft.Web/sites/functions@2022-03-01' = {
   name: functionNameComputed
   parent: name_resource
   properties: {
     config: {
       disabled: false
+      bindings: [
+        {
+          name: 'req'
+          type: 'httpTrigger'
+          direction: 'in'
+          authLevel: 'anonymous' // The function is configured to use anonymous authentication (i.e. no function key required), since the Azure Functions infrastructure will verify that the request has come through Front Door.
+          methods: [
+            'get'
+          ]
+        }
+        {
+          name: '$return'
+          type: 'http'
+          direction: 'out'
+        }
+      ]
     } 
       files: {
        '__init__.py': loadTextContent('HttpTrigger/__init__.py')
