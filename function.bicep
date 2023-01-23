@@ -13,6 +13,7 @@ param sku string = 'dynamic'
 param workerSizeId int = 1
 param skuCode string = 'Y1'
 var functionNameComputed = 'HttpTrigger'
+param storageSkuName string = 'Standard_LRS'
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
   name: name
@@ -91,7 +92,10 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-
   name: storageAccountName
   location: location
   kind:'StorageV2'
-  sku: 'Standard_LRS'
+  sku: {
+    name: storageSkuName
+  }
+  
 
 }
 resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
@@ -105,7 +109,7 @@ resource function 'Microsoft.Web/sites/functions@2020-12-01' = {
     } 
       files: {
        '__init__.py': loadTextContent('HttpTrigger/__init__.py')
-       'function.json': loadTextContent('HttpTrigger/function.json')
+      // 'function.json': loadTextContent('HttpTrigger/function.json')
       }
     }
 }
