@@ -18,7 +18,7 @@ param storageSkuName string = 'Standard_LRS'
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
   name: name
   dependsOn:[
-    hostingPlanName_resource
+   storageAccountName_resource
   ]
   kind: 'functionapp,linux'
   location: location
@@ -101,6 +101,9 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-
 resource function 'Microsoft.Web/sites/functions@2022-03-01' = {
   name: functionNameComputed
   parent: name_resource
+  dependsOn: [
+    storageAccountName_resource
+  ]
   properties: {
     config: {
       disabled: false
