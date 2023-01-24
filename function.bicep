@@ -103,16 +103,11 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-
 resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
   name: CosmosDBName
   location: location
-  tags: {
-    defaultExperience: 'Core (SQL)'
-    'hidden-cosmos-mmspecial': ''
-  }
   kind: 'GlobalDocumentDB'
   identity: {
     type:'None'
   }
-  properties:{
-    properties: {
+  properties: {
       publicNetworkAccess: 'Enabled'
       enableAutomaticFailover: false
       enableMultipleWriteLocations: false
@@ -150,7 +145,6 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
         type: 'Continuous'
       }
     }
-  }
 }
 
 resource databaseAccounts_oyvindcloud2_name_visitordb_visit 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-08-15' = {
