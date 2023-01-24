@@ -110,7 +110,7 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Install-Module -Name CosmosDB -Force
+          Install-Module -Name CosmosDB -Force -Scope CurrentUser
           $json = Get-Content ${{env.jsonfile}}| Out-String | ConvertFrom-Json
           $cosmosDbContext = New-CosmosDbContext -Account ${{ env.cosmosDbAccount }} -Database visitordb -ResourceGroup ${{ env.resourcegroupname }}
           foreach($item in $json){
