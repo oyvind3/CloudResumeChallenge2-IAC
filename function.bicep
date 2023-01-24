@@ -115,6 +115,7 @@ resource function 'Microsoft.Web/sites/functions@2022-03-01' = {
           authLevel: 'anonymous' // The function is configured to use anonymous authentication (i.e. no function key required), since the Azure Functions infrastructure will verify that the request has come through Front Door.
           methods: [
             'get'
+            'post'
           ]
         }
         {
