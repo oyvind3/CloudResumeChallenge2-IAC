@@ -1,6 +1,6 @@
 param name string = 'oyvindfunction180123'
 param location string = resourceGroup().location
-param storageAccountName string = 'offunctionstorage'
+param storageAccountName string = 'iacoyvindstorage'
 param use32BitWorkerProcess bool = false
 param subscriptionId string = '0440339a-9a51-4a90-b6d6-c715483744ce'
 param ftpsState string = 'FtpsOnly'
