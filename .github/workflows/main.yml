@@ -60,8 +60,8 @@ jobs:
         uses: azure/powershell@v1
         with:
          inlineScript: |
-          azPSVersion: "latest"
           start-sleep -Seconds 160
+         azPSVersion: "latest"
 
   Function-deployment:
     runs-on: ubuntu-latest
