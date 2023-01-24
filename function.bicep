@@ -14,7 +14,7 @@ param skuCode string = 'Y1'
 var functionNameComputed = 'HttpTrigger'
 param storageSkuName string = 'Standard_LRS'
 param storageAccountName string = 'saof${toLower(uniqueString(resourceGroup().id))}'
-param CosmosDBName string = 'saof${toLower(uniqueString(resourceGroup().id))}'
+param CosmosDBName string = 'oyvindcosmos'
 
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {

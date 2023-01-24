@@ -13,6 +13,10 @@ env:
   AZURE_FUNCTIONAPP_NAME: 'oyvindfunction180123'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.9'
+  jsonfile: ./data.json
+  cosmosDbAccount: oyvindcosmos
+  Database: visitordb
+
 
 jobs:
   prebuild-azure-enviroment:
@@ -96,5 +100,23 @@ jobs:
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} 
         scm-do-build-during-deployment: true
         enable-oryx-build: true
+    
+    - name: loginazure🧿
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: added waiting time
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          Install-Module -Name CosmosDB
+          $json = Get-Content ${{env.jsonfile}}| Out-String | ConvertFrom-Json
+          $cosmosDbContext = New-CosmosDbContext -Account ${{ env.cosmosDbAccount }} -Database visitordb -ResourceGroup ${{ env.resourcegroupname }}
+          foreach($item in $json){
+              $document = $item | ConvertTo-Json | Out-String
+              New-CosmosDbDocument -Context $cosmosDbContext -CollectionId visit -DocumentBody $document -PartitionKey "testpartitionkey"
+          }
+        azPSVersion: "latest"
 
 
