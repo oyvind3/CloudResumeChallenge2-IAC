@@ -10,7 +10,7 @@ env:
   bicepfilePath: ./function.bicep
   deployname: oyvindtestiacdeploy
   outputFilePath: ./main.json
-  AZURE_FUNCTIONAPP_NAME: oyvindfunction180123 
+  AZURE_FUNCTIONAPP_NAME: oyvindfunction2501 
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.9'
   jsonfile: ./data.json
@@ -100,7 +100,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     -  name: enable cosmosdb module
-       uses: azure/powershell@v1
+       uses: azure/CLI@v1
        with:
          inlineScript: |
            Install-Module -Name CosmosDB -Force
