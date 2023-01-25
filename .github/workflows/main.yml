@@ -62,7 +62,7 @@ jobs:
         uses: azure/powershell@v1
         with:
          inlineScript: |
-          start-sleep -Seconds 260
+          start-sleep -Seconds 25
          azPSVersion: "latest"
 
   Function-deployment:
@@ -100,7 +100,7 @@ jobs:
         enable-oryx-build: true
 
   post-document-to-cosmos:
-    needs: [build-azure-enviroment]
+    needs: [Function-deployment]
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'

@@ -23,7 +23,7 @@
       "name": "inputDocument",
       "databaseName": "visitordb",
       "collectionName": "visit",
-      "connectionStringSetting": "oyvindcloud2_DOCUMENTDB",
+      "connectionStringSetting": "oyvindfunction2501_DOCUMENTDB",
       "id": "{id}",
       "partitionKey": "{partitionKey}"
     }
