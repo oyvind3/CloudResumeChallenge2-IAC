@@ -109,7 +109,9 @@ jobs:
     -  name: enable cosmosdb module
        uses: azure/powershell@v1
        with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
          inlineScript: |
+           Connect-AzAccount -Credential ${{ secrets.AZURE_CREDENTIALS }} -Subscription ${{secrets.AZURE_SUBSCRIPTION }}
            Install-Module -Name CosmosDB -Force
          azPSVersion: "latest"
 
