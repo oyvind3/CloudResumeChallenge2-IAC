@@ -10,7 +10,7 @@ env:
   bicepfilePath: ./function.bicep
   deployname: oyvindtestiacdeploy
   outputFilePath: ./main.json
-  AZURE_FUNCTIONAPP_NAME: oyvindfunction180123
+  AZURE_FUNCTIONAPP_NAME: oyvindfunction180123 
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.9'
   jsonfile: ./data.json
@@ -93,13 +93,6 @@ jobs:
         pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
 
-    - name: 'Run Azure Functions Action⚡'
-      uses: Azure/functions-action@v1
-      with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} 
-        scm-do-build-during-deployment: true
-        enable-oryx-build: true
     
     - name: loginazure🧿
       uses: azure/login@v1
@@ -126,5 +119,13 @@ jobs:
               New-CosmosDbDocument -Context $cosmosDbContext -CollectionId visit -DocumentBody $document -PartitionKey "testpartitionkey"
           }
         azPSVersion: "latest"
+        
+    - name: 'Run Azure Functions Action⚡'
+      uses: Azure/functions-action@v1
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} 
+        scm-do-build-during-deployment: true
+        enable-oryx-build: true
 
 
