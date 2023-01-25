@@ -104,7 +104,6 @@ jobs:
        with:
          creds: ${{ secrets.AZURE_CREDENTIALS }}
          inlineScript: |
-           Connect-AzAccount -Credential ${{ secrets.AZURE_CREDENTIALS }} -Subscription ${{secrets.AZURE_SUBSCRIPTION }}
            Install-Module -Name CosmosDB -Force
          azPSVersion: "latest"
 
@@ -119,7 +118,7 @@ jobs:
               New-CosmosDbDocument -Context $cosmosDbContext -CollectionId visit -DocumentBody $document -PartitionKey "testpartitionkey"
           }
         azPSVersion: "latest"
-        
+
     - name: 'Run Azure Functions Action⚡'
       uses: Azure/functions-action@v1
       with:
