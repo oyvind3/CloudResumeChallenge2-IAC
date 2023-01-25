@@ -10,13 +10,12 @@ env:
   bicepfilePath: ./function.bicep
   deployname: oyvindtestiacdeploy
   outputFilePath: ./main.json
-  AZURE_FUNCTIONAPP_NAME: oyvindfunction2501 
+  AZURE_FUNCTIONAPP_NAME: 'oyvindfunction2501'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.9'
   jsonfile: ./data.json
   cosmosDbAccount: oyvindcosmos
   Database: visitordb
-
 
 jobs:
   prebuild-azure-enviroment:
@@ -59,12 +58,11 @@ jobs:
           template: ${{env.outputFilePath}}
           failOnStdErr: false
 
-      # Runs a single command using the runners shell
       - name: added waiting time
         uses: azure/powershell@v1
         with:
          inlineScript: |
-          start-sleep -Seconds 160
+          start-sleep -Seconds 260
          azPSVersion: "latest"
 
   Function-deployment:
@@ -74,11 +72,10 @@ jobs:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@v3
 
-    # If you want to use Azure RBAC instead of Publish Profile, then uncomment the task below
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }} # set up AZURE_RBAC_CREDENTIALS secrets in your repository
+        creds: ${{ secrets.AZURE_CREDENTIALS }} 
 
     - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
       uses: actions/setup-python@v4
@@ -93,7 +90,21 @@ jobs:
         pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
 
-    
+    - name: 'Run Azure Functions Action⚡'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} 
+        scm-do-build-during-deployment: true
+        enable-oryx-build: true
+
+  post-document-to-cosmos:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
     - name: loginazure🧿
       uses: azure/login@v1
       with:
@@ -118,13 +129,5 @@ jobs:
               New-CosmosDbDocument -Context $cosmosDbContext -CollectionId visit -DocumentBody $document -PartitionKey "testpartitionkey"
           }
         azPSVersion: "latest"
-
-    - name: 'Run Azure Functions Action⚡'
-      uses: Azure/functions-action@v1
-      with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} 
-        scm-do-build-during-deployment: true
-        enable-oryx-build: true
 
 
