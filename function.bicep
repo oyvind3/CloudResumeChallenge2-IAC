@@ -40,6 +40,10 @@ resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
           value: 'python'
         }
         {
+          name: 'oyvindfunction2501_DOCUMENTDB'
+          value: listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', CosmosDBName), '2022-08-15').connectionStrings[0].connectionString
+        }
+        {
           name: 'AzureWebJobsStorage'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${listKeys(storageAccountName_resource.id, '2019-06-01').keys[0].value};EndpointSuffix=core.windows.net'
         }
