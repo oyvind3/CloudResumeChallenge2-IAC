@@ -100,6 +100,7 @@ jobs:
         enable-oryx-build: true
 
   post-document-to-cosmos:
+    needs: [build-azure-enviroment]
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
