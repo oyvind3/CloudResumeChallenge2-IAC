@@ -1,31 +1,23 @@
-import logging
-import json
 import azure.functions as func
+import json
+import logging
 
-def main(req: func.HttpRequest, inputDocument: func.DocumentList) -> str:
-##if not inputDocument:
-##logging.warning("ToDo item not not found")
-    users_json = []
+def main(req: func.HttpRequest, inputDocument: func.DocumentList,  outputDocument: func.Out[func.DocumentList]) ->str:
+    logging.info('Python HTTP trigger function processed a request.')
 
-    for user in inputDocument:
-        user_json = {
-          ## "id": user['id'],
-           ##"partitionkey": user['testpartitionkey'],
-           "visit nr is this: ": user['visitor']
-        }
-        users_json.append(user_json)
-
-    if inputDocument:
-        return func.HttpResponse(
-            json.dumps(users_json),
-            status_code=420,
-            mimetype="application/json"            
-        )
-##return func.HttpResponse (f"Hello, {inputDocument.sort}. This HTTP triggered function executed successfully")
-    else:
-        return func.HttpResponse(
-            "this trigger was executed sucessfully, please pass in a query in the requestbody",
-            status_code=555
-        )
-
- ##THIS IS WORKING
+    name = req.route_params.get('name')
+    for name in inputDocument:
+        logging.info(name.to_json())
+    if name:
+        newdocs = func.DocumentList()
+        logging.info('things are getting there, trying to make adjustments clear')
+        visitorname = name.to_json()
+        visitor = json.loads(visitorname)
+        logging.info('readjusting somethings')
+        key = "visitor"
+        if key in visitor:
+            visitor[key] +=1
+        newdocs_load_json= json.dumps(visitor)
+        newdocs.append(func.Document.from_json(newdocs_load_json))
+        outputDocument.set(newdocs)
+        return func.HttpResponse(f"{newdocs_load_json}")

@@ -6,16 +6,21 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "route": "visit/{partitionKey}/{id}",
       "methods": [
+        "set",
         "get",
         "post"
-      ]
+      ],
+      "route": "visit/testpartitionkey/{name}"
     },
     {
-      "type": "http",
+      "type": "cosmosDB",
       "direction": "out",
-      "name": "$return"
+      "name": "outputDocument",
+      "databaseName": "visitordb",
+      "collectionName": "visit",
+      "createIfNotExists": false,
+      "connectionStringSetting": "oyvindfunction2501_DOCUMENTDB"
     },
     {
       "type": "cosmosDB",
@@ -24,8 +29,12 @@
       "databaseName": "visitordb",
       "collectionName": "visit",
       "connectionStringSetting": "oyvindfunction2501_DOCUMENTDB",
-      "id": "{id}",
-      "partitionKey": "{partitionKey}"
+      "partitionKey": "testpartitionkey"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
     }
   ]
 }
