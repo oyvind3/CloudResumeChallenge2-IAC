@@ -10,7 +10,7 @@ env:
   bicepfilePath: ./function.bicep
   deployname: oyvindtestiacdeploy
   outputFilePath: ./main.json
-  AZURE_FUNCTIONAPP_NAME: 'oyvindfunction2501'
+  AZURE_FUNCTIONAPP_NAME: 'oyvindfunction2701'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.9'
   jsonfile: ./data.json
@@ -89,6 +89,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
+  
+  run-az-function:
+    needs: [Function-deployment]
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }} 
 
     - name: 'Run Azure Functions Action⚡'
       uses: Azure/functions-action@v1
@@ -100,7 +109,7 @@ jobs:
         enable-oryx-build: true
 
   post-document-to-cosmos:
-    needs: [Function-deployment]
+    needs: [build-azure-enviroment]
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'

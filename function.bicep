@@ -1,4 +1,4 @@
-param name string = 'oyvindfunction2501'
+param name string = 'oyvindfunction2701'
 param location string = resourceGroup().location
 param use32BitWorkerProcess bool = false
 param subscriptionId string = '0440339a-9a51-4a90-b6d6-c715483744ce'
@@ -136,7 +136,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
       }
       cors: [
         {
-          allowedOrigins: 'https://functionappcloud.azurewebsites.net, https://inportalediting.azurewebsites.net, https://oyvindfunction2501.azurewebsites.net' 
+          allowedOrigins: 'https://functionappcloud.azurewebsites.net, https://inportalediting.azurewebsites.net, https://oyvindfunction2701.azurewebsites.net' 
         }
       ] 
       capabilities: [
