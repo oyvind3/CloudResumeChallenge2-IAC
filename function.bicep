@@ -210,23 +210,7 @@ resource function 'Microsoft.Web/sites/functions@2022-03-01' = {
   properties: {
     config: {
       disabled: false
-      bindings: [
-        {
-          name: 'req'
-          type: 'httpTrigger'
-          direction: 'in'
-          authLevel: 'anonymous' // The function is configured to use anonymous authentication (i.e. no function key required), since the Azure Functions infrastructure will verify that the request has come through Front Door.
-          methods: [
-            'get'
-            'post'
-          ]
-        }
-        {
-          name: '$return'
-          type: 'http'
-          direction: 'out'
-        }
-      ]
+      
     } 
       files: {
        '__init__.py': loadTextContent('HttpTrigger/__init__.py')
