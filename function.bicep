@@ -1,11 +1,11 @@
-param name string = 'oyvindfunction2701'
+param name string = 'oyvindfunction2801'
 param location string = resourceGroup().location
 param use32BitWorkerProcess bool = false
 param subscriptionId string = '0440339a-9a51-4a90-b6d6-c715483744ce'
 param ftpsState string = 'FtpsOnly'
 param linuxFxVersion string = 'Python|3.9'
-param hostingPlanName string = 'oyvindhostingplan180123'
-param serverFarmResourceGroup string = 'rgiacoyvind'
+param hostingPlanName string = 'oyvindhostingplan2801'
+param serverFarmResourceGroup string = 'rgiacoyvind1'
 param workerSize int = 0
 param numberOfWorkers int = 1
 param sku string = 'dynamic'
@@ -14,7 +14,7 @@ param skuCode string = 'Y1'
 var functionNameComputed = 'HttpTrigger'
 param storageSkuName string = 'Standard_LRS'
 param storageAccountName string = 'saof${toLower(uniqueString(resourceGroup().id))}'
-param CosmosDBName string = 'oyvindcosmos'
+param CosmosDBName string = 'oyvindcosmos1'
 
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
@@ -210,9 +210,43 @@ resource function 'Microsoft.Web/sites/functions@2022-03-01' = {
   properties: {
     config: {
       disabled: false
-      
-    } 
-      files: {
+      bindings: [
+        {
+          name: 'req'
+          type: 'httpTrigger'
+          direction: 'in'
+          authLevel: 'anonymous'
+          methods: [
+            'get'
+            'set'
+          ]
+          route: 'visit/testpartitionkey/{name}'
+        }
+        {
+         type: 'cosmosDB'
+         direction: 'out'
+         name: 'outputDocument'
+         databaseName: 'visitordb'
+         collectionName: 'visit'
+         createIfNotExists: false
+         connectionStringSetting: 'oyvindfunction2501_DOCUMENTDB'
+        }
+        {
+          type: 'cosmosDB'
+          direction: 'in'
+          name: 'inputDocument'
+          databaseName: 'visitordb'
+          collectionName: 'visit'
+          connectionStringSetting: 'oyvindfunction2501_DOCUMENTDB'
+         }
+        {
+          name: '$return'
+          type: 'http'
+          direction: 'out'
+        }
+      ]
+    }
+    files: {
        '__init__.py': loadTextContent('HttpTrigger/__init__.py')
        'function.json': loadTextContent('HttpTrigger/function.json')
       }

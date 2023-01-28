@@ -2,3 +2,5 @@
 [0125/172201.873:ERROR:registration_protocol_win.cc(102)] CreateFile: Systemet finner ikke angitt fil. (0x2)
 [0125/174657.868:ERROR:registration_protocol_win.cc(102)] CreateFile: Systemet finner ikke angitt fil. (0x2)
 [0125/174658.183:ERROR:registration_protocol_win.cc(102)] CreateFile: Systemet finner ikke angitt fil. (0x2)
+[0125/181652.127:ERROR:registration_protocol_win.cc(102)] CreateFile: Systemet finner ikke angitt fil. (0x2)
+[0125/181652.396:ERROR:registration_protocol_win.cc(102)] CreateFile: Systemet finner ikke angitt fil. (0x2)
