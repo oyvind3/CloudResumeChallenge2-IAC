@@ -1,11 +1,11 @@
-param name string = 'oyvindfunction2801'
+param name string = 'oyvindfunction2901'
 param location string = resourceGroup().location
 param use32BitWorkerProcess bool = false
 param subscriptionId string = '0440339a-9a51-4a90-b6d6-c715483744ce'
 param ftpsState string = 'FtpsOnly'
 param linuxFxVersion string = 'Python|3.9'
-param hostingPlanName string = 'oyvindhostingplan2801'
-param serverFarmResourceGroup string = 'rgiacoyvind1'
+param hostingPlanName string = 'oyvindhostingplan2901'
+param serverFarmResourceGroup string = 'rgiacoyvind2'
 param workerSize int = 0
 param numberOfWorkers int = 1
 param sku string = 'dynamic'
@@ -14,7 +14,7 @@ param skuCode string = 'Y1'
 var functionNameComputed = 'HttpTrigger'
 param storageSkuName string = 'Standard_LRS'
 param storageAccountName string = 'saof${toLower(uniqueString(resourceGroup().id))}'
-param CosmosDBName string = 'oyvindcosmos1'
+param CosmosDBName string = 'oyvindcosmos2'
 
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
