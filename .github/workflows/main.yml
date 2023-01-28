@@ -6,15 +6,15 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 env:
-  resourcegroupname: rgiacoyvind2
+  resourcegroupname: rgiacoyvind3
   bicepfilePath: ./function.bicep
   deployname: oyvindtestiacdeploy
   outputFilePath: ./main.json
-  AZURE_FUNCTIONAPP_NAME: oyvindfunction2901
+  AZURE_FUNCTIONAPP_NAME: oyvindfunction3001
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.9'
   jsonfile: ./data.json
-  cosmosDbAccount: oyvindcosmos2
+  cosmosDbAccount: oyvindcosmos3
   Database: visitordb
 
 jobs:

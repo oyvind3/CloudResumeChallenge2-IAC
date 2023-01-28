@@ -1,11 +1,11 @@
-param name string = 'oyvindfunction2901'
+param name string = 'oyvindfunction3001'
 param location string = resourceGroup().location
 param use32BitWorkerProcess bool = false
 param subscriptionId string = '0440339a-9a51-4a90-b6d6-c715483744ce'
 param ftpsState string = 'FtpsOnly'
 param linuxFxVersion string = 'Python|3.9'
-param hostingPlanName string = 'oyvindhostingplan2901'
-param serverFarmResourceGroup string = 'rgiacoyvind2'
+param hostingPlanName string = 'oyvindhostingplan3001'
+param serverFarmResourceGroup string = 'rgiacoyvind3'
 param workerSize int = 0
 param numberOfWorkers int = 1
 param sku string = 'dynamic'
@@ -14,7 +14,7 @@ param skuCode string = 'Y1'
 var functionNameComputed = 'HttpTrigger'
 param storageSkuName string = 'Standard_LRS'
 param storageAccountName string = 'saof${toLower(uniqueString(resourceGroup().id))}'
-param CosmosDBName string = 'oyvindcosmos2'
+param CosmosDBName string = 'oyvindcosmos3'
 
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
@@ -201,7 +201,7 @@ resource nosqldb 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-08-15'
   }
 }
 
-resource function 'Microsoft.Web/sites/functions@2022-03-01' = {
+resource function 'Microsoft.Web/sites/functions@2016-08-01' = {
   name: functionNameComputed
   parent: name_resource
   dependsOn: [
