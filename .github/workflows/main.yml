@@ -6,15 +6,15 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 env:
-  resourcegroupname: rgiacoyvind1
+  resourcegroupname: rgiacoyvind2
   bicepfilePath: ./function.bicep
   deployname: oyvindtestiacdeploy
   outputFilePath: ./main.json
-  AZURE_FUNCTIONAPP_NAME: oyvindfunction2801
+  AZURE_FUNCTIONAPP_NAME: oyvindfunction2901
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.9'
   jsonfile: ./data.json
-  cosmosDbAccount: oyvindcosmos1
+  cosmosDbAccount: oyvindcosmos2
   Database: visitordb
 
 jobs:
@@ -105,8 +105,6 @@ jobs:
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} 
-        scm-do-build-during-deployment: true
-        enable-oryx-build: true
 
   post-document-to-cosmos:
     needs: [build-azure-enviroment]
