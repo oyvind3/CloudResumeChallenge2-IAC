@@ -1,0 +1,57 @@
+on: [push]
+name: 🧿🧿Azure bicep deploy
+env:
+  resourceGroupName: rgoyvind1201
+  bicepfilePath: ./main.bicep
+  resourceGroupLocation: WestUS 
+  storageAccountName: cloudresumeoyvind222
+  outputFilePath: ./main.json
+  deployName: oyvinddeploy131
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: bicep-build-output
+        uses: Azure/bicep-build-action@v1.0.1
+        with:
+          bicepFilePath: ${{  env.bicepfilePath }}
+          outputFilePath: ${{ env.outputFilePath }}
+      - name: loginazure🧿💙
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: deploybicep2
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          resourceGroupName: ${{env.resourceGroupName}}
+          template: ${{ env.outputFilePath }}
+          failOnStdErr: false
+
+      #- name: deploybicep💪🐝
+      #  uses: azure/cli@v1   
+      #  with:
+      #    inlineScript: |
+      #      az deployment sub create  \
+      #      --name ${{env.deployName}} \
+      #      --location ${{env.resourceGroupLocation}} \
+      #      --template-file ${{env.bicepfilePath}} \
+          
+   #second build starts       
+  test-deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - uses: azure/login@v1
+       with: 
+           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+     - name: create-folder
+       uses: azure/CLI@v1
+       with:
+         inlineScript: |
+          az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
+          az storage blob service-properties update --account-name cloudresumeoyvind222 --static-website --404-document error.html --index-document index.html

@@ -1,0 +1,150 @@
+name: CI
+on:
+  workflow_run:
+    workflows: [main.yml]
+    types:
+      - completed
+  push:
+    branches: [ "main" ]
+    
+  workflow_dispatch:
+env:
+  resourcegroupname: rgiacoyvind3
+  bicepfilePath: ./function.bicep
+  deployname: oyvindtestiacdeploy
+  outputFilePath: ./main.json
+  AZURE_FUNCTIONAPP_NAME: oyvindfunction3001
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  PYTHON_VERSION: '3.9'
+  jsonfile: ./data.json
+  cosmosDbAccount: oyvindcosmos3
+  Database: visitordb
+
+jobs:
+  prebuild-azure-enviroment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Create rg
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
+            az group create -l westeurope -n ${{ env.resourcegroupname }}
+  build-azure-enviroment:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    needs: [prebuild-azure-enviroment]
+    steps:
+      - uses: actions/checkout@main
+      - name: bicepbuild
+        uses: Azure/bicep-build-action@v1.0.1
+        with:
+          bicepFilePath: ${{env.bicepfilePath}}
+          outputFilePath: ${{ env.outputFilePath }}
+
+      - name: loginazure🧿
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to rg
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          resourceGroupName: ${{env.resourcegroupname}}
+          template: ${{env.outputFilePath}}
+          failOnStdErr: false
+
+      - name: added waiting time
+        uses: azure/powershell@v1
+        with:
+         inlineScript: |
+          start-sleep -Seconds 25
+         azPSVersion: "latest"
+
+  Function-deployment:
+    runs-on: ubuntu-latest
+    needs: [build-azure-enviroment]
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }} 
+
+    - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Pip'
+      shell: bash
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+        popd
+  
+  run-az-function:
+    needs: [Function-deployment]
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }} 
+
+    - name: 'Run Azure Functions Action⚡😪'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} 
+
+  post-document-to-cosmos:
+    needs: [build-azure-enviroment]
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: loginazure🧿
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true 
+
+    -  name: enable cosmosdb module
+       uses: azure/powershell@v1
+       with:
+         inlineScript: |
+           Install-Module -Name CosmosDB -Force
+         azPSVersion: "latest"
+
+    - name: enable module
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $json = Get-Content ${{env.jsonfile}}| Out-String | ConvertFrom-Json
+          $cosmosDbContext = New-CosmosDbContext -Account ${{ env.cosmosDbAccount }} -Database visitordb -ResourceGroup ${{ env.resourcegroupname }}
+          foreach($item in $json){
+              $document = $item | ConvertTo-Json | Out-String
+              New-CosmosDbDocument -Context $cosmosDbContext -CollectionId visit -DocumentBody $document -PartitionKey "testpartitionkey"
+          }
+        azPSVersion: "latest"
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v5.0.7
