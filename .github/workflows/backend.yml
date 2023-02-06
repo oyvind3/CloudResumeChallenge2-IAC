@@ -103,7 +103,9 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} 
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        scm-do-build-during-deployment: true
+        enable-oryx-build: true
 #script to push cosmosdb doc to az cosmos
   post-document-to-cosmos:
     needs: [build-azure-enviroment]
