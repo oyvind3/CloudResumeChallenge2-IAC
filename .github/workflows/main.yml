@@ -55,3 +55,56 @@ jobs:
          inlineScript: |
           az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
           az storage blob service-properties update --account-name cloudresumeoyvind222 --static-website --404-document error.html --index-document index.html
+ 
+
+  wait-for-folder:
+    needs: [test-deploy]
+    runs-on: ubuntu-latest
+    steps:
+     - name: login
+       uses: azure/login@v1
+       with: 
+           creds: ${{ secrets.AZURE_CREDENTIALS }}
+           
+#    - name: added waiting time
+#       uses: azure/powershell@v1
+#       with:
+#         inlineScript: |
+#            start-sleep -Seconds 25
+#            azPSVersion: "latest"
+
+#added actions/checkout@v2, else the az storage upload-batch will not fetch any data from the repository
+  wait-for-testdeploy:
+    needs: [test-deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/login@v1
+        with: 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.html --overwrite true -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.css --overwrite true  -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.js --overwrite true   -s .
+      - name: logout
+        run: |
+               az logout 
+        if: always()
+        
+  wait-for-upload1:
+    needs: [wait-for-testdeploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/login@v1
+        with: 
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: enable https for custom domain
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+             az cdn custom-domain list -g rgoyvind1201 --profile-name cdnofzpcph7h4irqa4 --endpoint-name finsrudcloud2
+             az cdn custom-domain enable-https -g rgoyvind1201 --profile-name cdnofzpcph7h4irqa4 --endpoint-name finsrudcloud2 -n domain42j3ttugqqwxw
