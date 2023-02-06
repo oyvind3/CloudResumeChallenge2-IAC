@@ -1,12 +1,9 @@
 name: CI
 on:
   workflow_run:
-    workflows: [Azure bicep deploy]
+    workflows: [Frontend]
     types:
       - completed
-  push:
-    branches: [ "main" ]
-
   workflow_dispatch:
 env:
   resourcegroupname: rgiacoyvind3

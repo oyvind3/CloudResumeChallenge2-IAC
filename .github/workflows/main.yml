@@ -1,5 +1,5 @@
 on: [push]
-name: Azure bicep deploy
+name: Frontend
 env:
   resourceGroupName: rgoyvind1201
   bicepfilePath: ./main.bicep
