@@ -20,3 +20,13 @@ describe('My second Test', () => {
          })
      })
 })
+
+describe('My third Test', () => {
+  it('Test POST Request', () => {  
+       cy.request({
+        method: 'POST',
+        url: 'https://oyvindfunction3001.azurewebsites.net/api/visit/testpartitionkey/VISITOR',
+        failOnStatusCode: false
+       })
+  })
+})

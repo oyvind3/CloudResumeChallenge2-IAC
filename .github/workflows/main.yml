@@ -30,7 +30,7 @@ jobs:
           template: ${{ env.outputFilePath }}
           failOnStdErr: false
 
-      #- name: deploybicep💪🐝
+      # - name: deploybicep💪🐝
       #  uses: azure/cli@v1   
       #  with:
       #    inlineScript: |
