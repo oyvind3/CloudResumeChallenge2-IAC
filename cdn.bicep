@@ -159,7 +159,7 @@ resource customdomain 'Microsoft.Cdn/profiles/endpoints/customDomains@2022-11-01
   parent: profiles_cdncloudresume_name_finsrudcloud
   name: customdomainna
   properties:{
-    hostName: 'testt.finsrud.cloud'
+    hostName: 'resume2.finsrud.cloud'
   }
   dependsOn:[
     profiles_cdncloudresume_name_finsrudcloud
