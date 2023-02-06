@@ -135,6 +135,7 @@ jobs:
           }
         azPSVersion: "latest"
   cypress-run:
+    needs: post-document-to-cosmos
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
