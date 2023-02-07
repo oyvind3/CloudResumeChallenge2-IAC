@@ -87,9 +87,10 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.html --overwrite true -s .
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.css --overwrite true  -s .
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern counter.js --overwrite true   -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern index.html --overwrite true -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern *.css --overwrite true -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern counter.js --overwrite true -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern error.html --overwrite true -s .
       - name: logout
         run: |
                az logout 
