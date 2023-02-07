@@ -106,7 +106,7 @@ jobs:
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         scm-do-build-during-deployment: true
         enable-oryx-build: true
-#script to push cosmosdb doc to az cosmos
+#script to push cosmosdSb doc to az cosmos
   post-document-to-cosmos:
     needs: [build-azure-enviroment]
     runs-on: ubuntu-latest
