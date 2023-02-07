@@ -73,7 +73,7 @@ jobs:
 #            start-sleep -Seconds 25
 #            azPSVersion: "latest"
 
-#added actions/checkouts@v2, else the az storage upload-batch will not fetch any data from the repository w
+#added actions/checkouts@v2, else the az storage upload batch will not fetch any data from the repository w
   wait-for-testdeploy:
     needs: [test-deploy]
     runs-on: ubuntu-latest
