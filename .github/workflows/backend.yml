@@ -94,15 +94,6 @@ jobs:
         inlineScript: |
           start-sleep -Seconds 150
         azPSVersion: "latest"
-  
-  run-az-function:
-    needs: [Function-deployment]
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }} 
 
     - name: 'Run Azure Functions Action⚡😪'
       uses: Azure/functions-action@v1
