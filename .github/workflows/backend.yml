@@ -93,7 +93,7 @@ jobs:
       with:
         inlineScript: |
           start-sleep -Seconds 150
-          azPSVersion: "latest"
+        azPSVersion: "latest"
   
   run-az-function:
     needs: [Function-deployment]
