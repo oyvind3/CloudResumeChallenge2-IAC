@@ -1,4 +1,10 @@
-on: [push]
+on:
+ workflow_run:
+    workflows: [CREATE-DNS-RECORDS]
+    types:
+      - completed
+    workflow_dispatch:
+
 name: Frontend
 env:
   resourceGroupName: rgoyvind1201

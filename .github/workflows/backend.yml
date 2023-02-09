@@ -88,6 +88,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
+    - name: added waiting times
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          start-sleep -Seconds 150
+          azPSVersion: "latest"
   
   run-az-function:
     needs: [Function-deployment]
@@ -106,6 +112,8 @@ jobs:
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         scm-do-build-during-deployment: true
         enable-oryx-build: true
+
+
 #script to push cosmosdSb doc to az cosmos
   post-document-to-cosmos:
     needs: [build-azure-enviroment]
