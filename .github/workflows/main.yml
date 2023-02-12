@@ -8,7 +8,7 @@ on:
 name: Frontend
 env:
   resourceGroupName: rgoyvind1201
-  bicepfilePath: ./main.bicep
+  bicepfilePath: ./iac/main.bicep
   resourceGroupLocation: WestUS 
   storageAccountName: cloudresumeoyvind222
   outputFilePath: ./main.json
@@ -93,11 +93,11 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern index.html --overwrite true -s .
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern styles.css --overwrite true -s .
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern error.css --overwrite true -s .
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern counter.js --overwrite true -s .
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern error.html --overwrite true -s .
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern index.html --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern styles.css --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern error.css --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern counter.js --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern error.html --overwrite true -s ./webfiles
       - name: logout
         run: |
                az logout 

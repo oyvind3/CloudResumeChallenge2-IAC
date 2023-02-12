@@ -247,8 +247,8 @@ resource function 'Microsoft.Web/sites/functions@2016-08-01' = {
       ]
     }
     files: {
-       '__init__.py': loadTextContent('HttpTrigger/__init__.py')
-       'function.json': loadTextContent('HttpTrigger/function.json')
+       '__init__.py': loadTextContent('../HttpTrigger/__init__.py')
+       'function.json': loadTextContent('../HttpTrigger/function.json')
       }
     }
 }
