@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 env:
   resourcegroupname: rgiacoyvind3
-  bicepfilePath: ./function.bicep
+  bicepfilePath: ./iac/function.bicep
   deployname: oyvindtestiacdeploy
   outputFilePath: ./main.json
   AZURE_FUNCTIONAPP_NAME: oyvindfunction3001
