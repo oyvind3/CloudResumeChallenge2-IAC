@@ -1,4 +1,4 @@
-const api_url = 'https://inportalediting.azurewebsites.net/api/visit/testpartitionkey/VISITOR'
+const api_url = 'https://oyvindfunction3001.azurewebsites.net/api/visit/testpartitionkey/VISITOR'
 async function getISS() {
   const response = await fetch(api_url);
   const data = await response.json();
@@ -8,4 +8,3 @@ async function getISS() {
   document.getElementById('visit').textContent = visitor;
 }
 getISS();
-
