@@ -5,7 +5,7 @@ on:
       - completed
     workflow_dispatch:
 
-name: Frontend
+name: Frontend🎯
 env:
   resourcegroupname: rgoyvind1201
   bicepfilePath: ./iac/main.bicep
@@ -29,6 +29,12 @@ jobs:
           inlineScript: |
             az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
             az group create -l westeurope -n ${{ env.resourcegroupname }}
+      - name: added waiting times
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+             start-sleep -Seconds 25
+          azPSVersion: "latest"
   build:
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +52,7 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: ${{env.resourceGroupName}}
+          resourceGroupName: ${{env.resourcegroupname}}
           template: ${{ env.outputFilePath }}
           failOnStdErr: false
 
