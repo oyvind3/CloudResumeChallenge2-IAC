@@ -136,7 +136,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
       }
       cors: [
         {
-          allowedOrigins: 'https://functionappcloud.azurewebsites.net, https://inportalediting.azurewebsites.net, https://oyvindfunction2701.azurewebsites.net' 
+          allowedOrigins: 'https://functionappcloud.azurewebsites.net, https://inportalediting.azurewebsites.net, https://resume2.finsrud.cloud' 
         }
       ] 
       capabilities: [
