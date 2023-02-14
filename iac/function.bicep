@@ -58,7 +58,7 @@ resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
       ]
       cors: {
         allowedOrigins: [
-          'https://portal.azure.com'
+          'https://portal.azure.com', 'https://resume2.finsrud.cloud'
         ]
       }
       use32BitWorkerProcess: use32BitWorkerProcess
@@ -136,7 +136,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
       }
       cors: [
         {
-          allowedOrigins: 'https://functionappcloud.azurewebsites.net, https://inportalediting.azurewebsites.net, https://resume2.finsrud.cloud' 
+          allowedOrigins: 'https://functionappcloud.azurewebsites.net'
         }
       ] 
       capabilities: [
