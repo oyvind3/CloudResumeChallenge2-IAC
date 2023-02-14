@@ -5,7 +5,7 @@ on:
       - completed
     workflow_dispatch:
 
-name: Frontend🎯
+name: Frontend
 env:
   resourcegroupname: rgoyvind1201
   bicepfilePath: ./iac/main.bicep
