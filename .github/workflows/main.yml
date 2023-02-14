@@ -7,7 +7,7 @@ on:
 
 name: Frontend
 env:
-  resourceGroupName: rgoyvind1201
+  resourcegroupname: rgoyvind1201
   bicepfilePath: ./iac/main.bicep
   resourceGroupLocation: WestUS 
   storageAccountName: cloudresumeoyvind222
@@ -15,6 +15,20 @@ env:
   deployName: oyvinddeploy131
 
 jobs:
+  prebuild-azure-enviroment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: login-to-Azure🧿
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Create rg
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
+            az group create -l westeurope -n ${{ env.resourcegroupname }}
   build:
     runs-on: ubuntu-latest
     steps:
