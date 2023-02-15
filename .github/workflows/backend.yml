@@ -5,6 +5,9 @@ on:
     types:
       - completed
   workflow_dispatch:
+  permissions:
+    id-token: write
+    contents: read
 env:
   resourcegroupname: rgiacoyvind3
   bicepfilePath: ./iac/function.bicep
