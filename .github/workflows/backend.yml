@@ -1,11 +1,11 @@
 name: Backend
 on:
-  workflow_run:
+ workflow_run:
     workflows: [Frontend]
     types:
       - completed
-  workflow_dispatch:
-  permissions:
+      
+permissions:
     id-token: write
     contents: read
 env:
