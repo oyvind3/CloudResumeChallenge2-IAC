@@ -1,14 +1,11 @@
 # ☁Cloud Resume Azure Challenge
 
-
 This repository contains my whole Cloud Resume challenge, I have been working in different repositories, but finally merged everything into one. The idea behind the challenge is to gain real word experience dealing with all problems you get stuck on, learning different technology domains like Azure, Github Actions(CI/CD), Azure Bicep(IAC), Azure functions, python & testing tools like Cypress.
 
 ## 🔗Links
  - [My Resume site](https://resume.finsrud.cloud/)
  - [The Challenge](https://cloudresumechallenge.dev/docs/the-challenge/azure/)
  - [Blog](https://blog.finsrud.cloud/)
- - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
-
 
 ## 🤖 Tech Stack
 
