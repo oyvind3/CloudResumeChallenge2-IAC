@@ -29,14 +29,14 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Create rg
+      - name: Create rg📦
         uses: azure/CLI@v1
         with:
           inlineScript: |
             az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
             az group create -l westeurope -n ${{ env.resourcegroupname }}
       
-      - name: added waiting times
+      - name: added waiting times⌛
         uses: azure/powershell@v1
         with:
           inlineScript: |
