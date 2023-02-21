@@ -92,7 +92,6 @@ resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpo
         }
       }
     ]
-    originGroups: []
     geoFilters: []
     deliveryPolicy: {
       rules: [
