@@ -11,7 +11,7 @@ module stg2 'storage2.bicep' = {
 
 
 
-resource cdn 'Microsoft.Cdn/profiles@2022-05-01-preview' = {
+resource cdn 'Microsoft.Cdn/profiles@2021-06-01' = {
   name: profiles_cdncloudresume_name
   location: 'Global'
   sku: {
@@ -24,7 +24,7 @@ resource cdn 'Microsoft.Cdn/profiles@2022-05-01-preview' = {
   }
 }
 
-resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpoints@2022-05-01-preview' = {
+resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpoints@2021-06-01' = {
   parent: cdn
   name: endpointName
   location: 'Global'
@@ -92,7 +92,7 @@ resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpo
         }
       }
     ]
-    geoFilters: []
+    originGroups: []
     deliveryPolicy: {
       rules: [
         {
@@ -136,7 +136,7 @@ resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpo
   }
 }
 
-resource endpoint2 'Microsoft.Cdn/profiles/endpoints/origins@2022-11-01-preview' = {
+resource endpoint2 'Microsoft.Cdn/profiles/endpoints/origins@2021-06-01' = {
   parent: profiles_cdncloudresume_name_finsrudcloud
   name: profilesname
   properties: {
@@ -149,7 +149,6 @@ resource endpoint2 'Microsoft.Cdn/profiles/endpoints/origins@2022-11-01-preview'
     enabled: true
   }
   dependsOn: [
-
     profiles_cdncloudresume_name_finsrudcloud
   ]
 }
