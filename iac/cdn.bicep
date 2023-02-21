@@ -18,10 +18,6 @@ resource cdn 'Microsoft.Cdn/profiles@2021-06-01' = {
     name: 'Standard_Microsoft'
   }
   kind: 'cdn'
-  properties: {
-    extendedProperties: {
-    }
-  }
 }
 
 resource profiles_cdncloudresume_name_finsrudcloud 'Microsoft.Cdn/profiles/endpoints@2021-06-01' = {
