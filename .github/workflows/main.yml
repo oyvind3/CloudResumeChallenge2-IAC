@@ -1,3 +1,5 @@
+name: Frontend
+
 on:
  workflow_run:
     workflows: [CREATE-DNS-RECORDS]
@@ -8,7 +10,6 @@ permissions:
   id-token: write
   contents: read
 
-name: Frontend
 env:
   resourcegroupname: rgoyvind1201
   bicepfilePath: ./iac/main.bicep
@@ -34,6 +35,7 @@ jobs:
           inlineScript: |
             az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
             az group create -l westeurope -n ${{ env.resourcegroupname }}
+      
       - name: added waiting times
         uses: azure/powershell@v1
         with:
@@ -44,7 +46,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [prebuild-azure-enviroment]
     steps:
-      - uses: actions/checkout@main
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v3
       - name: bicep-build-output
         uses: Azure/bicep-build-action@v1.0.1
         with:
