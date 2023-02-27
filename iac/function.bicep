@@ -58,7 +58,7 @@ resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
       ]
       cors: {
         allowedOrigins: [
-          'https://portal.azure.com', 'https://resume2.finsrud.cloud'
+          'https://portal.azure.com', 'https://resume.finsrud.cloud'
         ]
       }
       use32BitWorkerProcess: use32BitWorkerProcess
