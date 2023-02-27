@@ -95,11 +95,6 @@ jobs:
           az account set --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }}
           az storage blob service-properties update --account-name cloudresumeoyvind222 --static-website --404-document error.html --index-document index.html
           
-     - name: logout
-       run: |
-               az logout 
-       if: always()
-
   wait-for-folder:
     needs: [test-deploy]
     runs-on: ubuntu-latest

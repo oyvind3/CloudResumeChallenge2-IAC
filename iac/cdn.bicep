@@ -1,5 +1,5 @@
 param utc string = utcNow()
-//var profiles_cdncloudresume_name2  = 'cdnof${uniqueString(utc)}'
+//var profiles_cdncloudresume_name  = 'cdnof${uniqueString(utc)}'
 var profiles_cdncloudresume_name = 'cdnofzpcph7h4irqa4'
 var profilesname = 'ofprofile${uniqueString(utc)}'
 var endpointName = 'finsrudcloud2'
