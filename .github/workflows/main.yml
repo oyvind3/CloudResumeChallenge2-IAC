@@ -92,9 +92,12 @@ jobs:
        uses: azure/CLI@v1
        with:
          inlineScript: |
-          az account set --subscription ${{secrets.AZURE_SUBSCRIPTION }}
-          az storage blob service-properties update --account-name cloudresumeoyvind222  --auth-mode key --static-website --404-document error.html --index-document index.html
- 
+          az account set --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }}
+          az storage blob service-properties update --account-name cloudresumeoyvind222  --auth-mode login --static-website --404-document error.html --index-document index.html
+     - name: logout
+       run: |
+               az logout 
+       if: always()
 
   wait-for-folder:
     needs: [test-deploy]
