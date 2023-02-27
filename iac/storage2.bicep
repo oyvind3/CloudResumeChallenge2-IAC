@@ -44,7 +44,7 @@ resource stg2 'Microsoft.Storage/storageAccounts@2022-05-01' = {
     }
     accessTier: 'Hot'
     customDomain: {
-      name: 'resume.finsrud.cloud'
+      name: 'test.finsrud.cloud'
     }
   }
 }
