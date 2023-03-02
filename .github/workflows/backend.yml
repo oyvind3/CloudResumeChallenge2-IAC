@@ -20,6 +20,8 @@ env:
   cosmosDbAccount: oyvindcosmos3
   Database: visitordb
 
+
+#using federated credentials from azure, this make sure Github Action only can authenticate towards this github repo on branch main.
 jobs:
   prebuild-azure-enviroment:
     runs-on: ubuntu-latest
@@ -28,9 +30,6 @@ jobs:
         uses: azure/login@v1
         with:
          creds: ${{ secrets.AZURE_CREDENTIALS }}
-         # client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          #tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          #subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Create rg
         uses: azure/CLI@v1
@@ -54,10 +53,7 @@ jobs:
         uses: azure/login@v1
         with:
          creds: ${{ secrets.AZURE_CREDENTIALS }}
-         # client-id: ${{ secrets.AZURE_CLIENT_ID }}
-         # tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-         # subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
+  
       - name: Deploy to rg
         uses: azure/arm-deploy@v1
         with:
@@ -84,10 +80,7 @@ jobs:
       uses: azure/login@v1
       with:
        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        #  client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        #  tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        #  subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
+   
     - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
       uses: actions/setup-python@v4
       with:
@@ -129,9 +122,6 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-   #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
-   #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-   #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         enable-AzPSSession: true 
 
     -  name: enable cosmosdb module
@@ -153,12 +143,11 @@ jobs:
           }
         azPSVersion: "latest"
   cypress-run:
-    needs: [Function-deployment]
+    needs: [post-document-to-cosmos]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # Install NPM dependencies, cache them correctly acc
-      # and run all Cypresss tests
+      # and run all Cypresss tests that can be found under /cypress
       - name: Cypress run
         uses: cypress-io/github-action@v5.0.7

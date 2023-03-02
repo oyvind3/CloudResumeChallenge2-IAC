@@ -1,3 +1,4 @@
+#importing azure  python 
 import azure.functions as func
 import json
 import logging
@@ -10,10 +11,13 @@ def main(req: func.HttpRequest, inputDocument: func.DocumentList,  outputDocumen
         logging.info(name.to_json())
     if name:
         newdocs = func.DocumentList()
-        logging.info('things are getting there, trying to make adjustments clear')
+        logging.info('Listing documents from cosmos db utilisting the input binding listed in the definition....')
+        #converting to an Json document
         visitorname = name.to_json()
+        #load json document
         visitor = json.loads(visitorname)
-        logging.info('readjusting somethings')
+        logging.info('loading json document complete')
+        #searching for key "visitor"
         key = "visitor"
         if key in visitor:
             visitor[key] +=1

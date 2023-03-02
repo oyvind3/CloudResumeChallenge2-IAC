@@ -11,8 +11,8 @@ This repository contains my whole Cloud Resume challenge, I have been working in
 
 **Frontend:** HTML, CSS, Javascript
 
-**Backend:** Python (for API)
+**Backend:** Python
 
 **Automation:** Github Actions & Azure Bicep
 ## 🧿Azure Stack
-Storage account, CDN, Azure Bicep(IAC), Azure Cosmos DB(NOSQL API) and Azure function(HTTP Trigger)
+Storage account(static website), CDN, Azure Bicep(IAC), Azure Cosmos DB(NOSQL API) and Azure function(HTTP Trigger)
