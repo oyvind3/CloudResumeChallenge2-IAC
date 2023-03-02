@@ -13,7 +13,6 @@ permissions:
 env:
   resourcegroupname: rgoyvind1201
   bicepfilePath: ./iac/main.bicep
-  resourceGroupLocation: WestUS 
   storageAccountName: cloudresumeoyvind222
   outputFilePath: ./main.json
   deployName: oyvinddeploy131
@@ -72,18 +71,7 @@ jobs:
           inlineScript: |
              start-sleep -Seconds 120
           azPSVersion: "latest"
-     
 
-      # - name: deploybsicep💪🐝
-      #  uses: azure/cli@v1   
-      #  with:
-      #    inlineScript: |
-      #      az deployment sub create  \
-      #      --name ${{env.deployName}} \
-      #      --location ${{env.resourceGroupLocation}} \
-      #      --template-file ${{env.bicepfilePath}} \
-          
-   #second build starts       
   test-deploy:
     needs: [build]
     runs-on: ubuntu-latest
@@ -119,8 +107,6 @@ jobs:
 #         inlineScript: |
 #            start-sleep -Seconds 25
 #            azPSVersion: "latest"
-
-#added actions/checkouts@v2, else the az storage upload batch will not fetch any data from the repository w
   wait-for-testdeploy:
     needs: [test-deploy]
     runs-on: ubuntu-latest
