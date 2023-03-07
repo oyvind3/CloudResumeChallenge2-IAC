@@ -88,7 +88,7 @@ jobs:
        with:
          inlineScript: |
           az account set --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }}
-          az storage blob service-properties update --account-name cloudresumeoyvind222 --auth-mode key --static-website true --404-document error.html --index-document index.html
+          az storage blob service-properties update --account-name cloudresumeoyvind222 --auth-mode login --static-website true --404-document error.html --index-document index.html
           
   wait-for-folder:
     needs: [test-deploy]
