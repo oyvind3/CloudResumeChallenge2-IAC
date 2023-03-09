@@ -24,6 +24,12 @@
   height: 100px;
 }
 
+#certifications div {
+  display: inline-block;
+  width: 150px;
+  height: 100px;
+}
+
  .visitoyvind li {
    position: relative;
    top:0;
