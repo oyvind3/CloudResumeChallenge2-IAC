@@ -122,11 +122,11 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern index.html --overwrite true -s ./webfiles
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern styles.css --overwrite true -s ./webfiles
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern error.css --overwrite true -s ./webfiles
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern counter.js --overwrite true -s ./webfiles
-                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode key --pattern error.html --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode login --pattern index.html --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode login --pattern styles.css --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode login --pattern error.css --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode login --pattern counter.js --overwrite true -s ./webfiles
+                az storage blob upload-batch -d '$web' --account-name cloudresumeoyvind222 --auth-mode login --pattern error.html --overwrite true -s ./webfiles
       - name: logout
         run: |
                az logout 
