@@ -15,8 +15,6 @@ var functionNameComputed = 'HttpTrigger'
 param storageSkuName string = 'Standard_LRS'
 param storageAccountName string = 'saof${toLower(uniqueString(resourceGroup().id))}'
 param accountName string = 'oyvindcosmos3'
-param containerName string = 'visit'
-param databaseName string = 'visitordb'
 
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
@@ -40,7 +38,7 @@ resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
         }
         {
           name: 'oyvindfunction2501_DOCUMENTDB'
-          value: listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', databaseName), '2022-08-15').connectionStrings[0].connectionString
+          value: listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', accountName), '2022-08-15').connectionStrings[0].connectionString
         }
         {
           name: 'AzureWebJobsStorage'
@@ -140,22 +138,21 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-11-15' = {
 //Creates cosmosdb database under account accountName
 resource nosqldb 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-08-15' = {
   parent: cosmos
-  name: databaseName
+  name: 'visitordb'
   properties: {
     resource: {
-      id: databaseName
-
+      id: 'visitordb'
     }
   }
 }
 
 //creates the actual containter within the cosmos db database
 resource databaseAccounts_oyvindcloud2_name_visitordb_visit 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-08-15' = {
-  name: containerName
+  name: 'visit'
   parent: nosqldb
   properties: {
     resource: {
-      id: containerName
+      id: 'visit'
       indexingPolicy: {
         indexingMode: 'consistent'
         automatic: true
