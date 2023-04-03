@@ -21,7 +21,6 @@ param databaseName string = 'visitordb'
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
   name: name
-  parent: storageAccountName_resource
   kind: 'functionapp,linux'
   location: location
   tags: {
@@ -41,7 +40,7 @@ resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
         }
         {
           name: 'oyvindfunction2501_DOCUMENTDB'
-          value: listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', CosmosDBName), '2022-08-15').connectionStrings[0].connectionString
+          value: listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', databaseName), '2022-08-15').connectionStrings[0].connectionString
         }
         {
           name: 'AzureWebJobsStorage'
@@ -65,7 +64,7 @@ resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
       ftpsState: ftpsState
       linuxFxVersion: linuxFxVersion
     }
-    serverFarmId: '/subscriptions/${subscriptionId}/resourcegroups/${serverFarmResourceGroup}/providers/Microsoft.Web/serverfarms/${hostingPlanName}'
+    serverFarmId: hostingPlanName_resource.id
     clientAffinityEnabled: false
     virtualNetworkSubnetId: null
     httpsOnly: true
