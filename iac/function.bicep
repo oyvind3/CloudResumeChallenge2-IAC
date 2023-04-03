@@ -21,9 +21,7 @@ param databaseName string = 'visitordb'
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
   name: name
-  dependsOn:[
-   storageAccountName_resource
-  ]
+  parent: storageAccountName_resource
   kind: 'functionapp,linux'
   location: location
   tags: {
@@ -93,7 +91,6 @@ resource hostingPlanName_resource 'Microsoft.Web/serverfarms@2018-11-01' = {
     tier: sku
     name: skuCode
   }
-  dependsOn: []
 }
 
 resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-01' = {
@@ -189,17 +186,11 @@ resource databaseAccounts_oyvindcloud2_name_visitordb_visit 'Microsoft.DocumentD
       }
     }
   }
-  dependsOn: [
-    cosmos
-  ]
 }
 
 resource function 'Microsoft.Web/sites/functions@2016-08-01' = {
   name: functionNameComputed
   parent: name_resource
-  dependsOn: [
-    storageAccountName_resource
-  ]
   properties: {
     config: {
       disabled: false
