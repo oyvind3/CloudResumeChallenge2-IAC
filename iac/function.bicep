@@ -14,7 +14,9 @@ param skuCode string = 'Y1'
 var functionNameComputed = 'HttpTrigger'
 param storageSkuName string = 'Standard_LRS'
 param storageAccountName string = 'saof${toLower(uniqueString(resourceGroup().id))}'
-param CosmosDBName string = 'oyvindcosmos3'
+param accountName string = 'oyvindcosmos3'
+param containerName string = 'visit'
+param databaseName string = 'visitordb'
 
 
 resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
@@ -101,62 +103,63 @@ resource storageAccountName_resource 'Microsoft.Storage/storageAccounts@2022-09-
   sku: {
     name: storageSkuName
   }
-  
-
 }
-resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
-  name: CosmosDBName
+
+resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-11-15' = {
+  name: accountName
+  tags:{
+    location: location
+    enviroment: 'prod'
+  }
   location: location
   kind: 'GlobalDocumentDB'
-  identity: {
-    type:'None'
-  }
   properties: {
-      publicNetworkAccess: 'Enabled'
-      enableAutomaticFailover: false
-      enableMultipleWriteLocations: false
-      isVirtualNetworkFilterEnabled: false
-      virtualNetworkRules: []
-      disableKeyBasedMetadataWriteAccess: false
-      enableFreeTier: false
-      enableAnalyticalStorage: false
-      analyticalStorageConfiguration: {
-        schemaType: 'WellDefined'
+    locations: [
+      {
+        locationName: location
+        failoverPriority: 0
+        isZoneRedundant: false
       }
-      createMode: 'Default'
-      databaseAccountOfferType: 'Standard'
-      defaultIdentity: 'FirstPartyIdentity'
-      networkAclBypass: 'None'
-      disableLocalAuth: false
-      enablePartitionMerge: false
-      consistencyPolicy: {
-        defaultConsistencyLevel: 'Session'
-        maxIntervalInSeconds: 5
-        maxStalenessPrefix: 100
-      }
-      cors: [
-        {
-          allowedOrigins: 'https://functionappcloud.azurewebsites.net'
-        }
-      ] 
-      capabilities: [
-        {
-          name: 'EnableServerless'
-        }
-      ]
-      ipRules: []
-      backupPolicy: {
-        type: 'Continuous'
-      }
+    ]
+    consistencyPolicy:{
+      defaultConsistencyLevel: 'Session'
     }
+    capabilities:[
+      {
+        name: 'EnableServerless'
+      }
+    ]
+    databaseAccountOfferType: 'Standard'
+    cors: [
+      {
+        allowedOrigins: 'https://oyvindfunction3001.azurewebsites.net'
+      }
+    ]
+    backupPolicy: {
+      type:'Continuous'
+    }
+  }
 }
 
-resource databaseAccounts_oyvindcloud2_name_visitordb_visit 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-08-15' = {
-  parent: nosqldb
-  name: 'visit'
+//Creates cosmosdb database under account accountName
+resource nosqldb 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-08-15' = {
+  parent: cosmos
+  name: databaseName
   properties: {
     resource: {
-      id: 'visit'
+      id: databaseName
+
+    }
+  }
+}
+
+//creates the actual containter within the cosmos db database
+resource databaseAccounts_oyvindcloud2_name_visitordb_visit 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-08-15' = {
+  name: containerName
+  parent: nosqldb
+  properties: {
+    resource: {
+      id: containerName
       indexingPolicy: {
         indexingMode: 'consistent'
         automatic: true
@@ -189,16 +192,6 @@ resource databaseAccounts_oyvindcloud2_name_visitordb_visit 'Microsoft.DocumentD
   dependsOn: [
     cosmos
   ]
-}
-
-resource nosqldb 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-08-15' = {
-  parent: cosmos
-  name: 'visitordb'
-  properties: {
-    resource: {
-      id: 'visitordb'
-    }
-  }
 }
 
 resource function 'Microsoft.Web/sites/functions@2016-08-01' = {
